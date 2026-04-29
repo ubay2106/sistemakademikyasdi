@@ -5,7 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>HMI Uniba Madura</title>
+    <title>Yayasan Darul Istiqlal</title>
+    <link rel="icon" type="image" href="{{ asset('img/logo.png') }}" />
     @vite('resources/css/app.css')
     <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
 
@@ -17,47 +18,98 @@
     <header class="bg-transparent absolute top-0 left-0 w-full flex items-center z-10 transition duration-300">
         <div class="container">
             <div class="flex items-center justify-between relative">
+
                 <div class="px-4">
-                    <a href="#" class="flex flex-wrap">
-                        <img src="{{ asset('/img/hmi.png') }}" class="size-10 mt-4 lg:size-12" alt="logo">
-                        <h4 class="font-bold text-lg text-white block py-6 lg:text-2xl">Uniba Madura</h4>
+                    <a href="#" class="flex items-center gap-2 py-4">
+                        <img src="{{ asset('/img/logo.png') }}" class="size-10 lg:size-12" alt="logo">
+                        <div class="flex flex-col">
+                            <span class=" text-base text-white font-medium tracking-wide lg:text-md">YAYASAN</span>
+                            <span class="text-md font-bold text-white lg:text-xl">DARUL ISTIQLAL</span>
+                        </div>
                     </a>
                 </div>
-                <div class="flex items-center px-4">
-                    <button id="bars" name="bars" type="button" class="block absolute right-4 lg:hidden">
-                        <span class="bars-line origin-top-left transition  duration-300 ease-in-out"></span>
-                        <span class="bars-line transition  duration-300 ease-in-out"></span>
-                        <span class="bars-line origin-bottom-left transition  duration-300 ease-in-out"></span>
+
+                <div class="flex items-center gap-3 px-4">
+
+                    <a href=""
+                        class="lg:hidden flex items-center gap-1.5 font-semibold text-sm text-primary bg-white border-2 border-white py-1.5 px-4 rounded-xl hover:text-black hover:bg-transparent hover:border-white transition duration-300">
+                        Login
+                    </a>
+
+                    <button id="bars" name="bars" type="button" class="block lg:hidden">
+                        <span class="bars-line origin-top-left transition duration-300 ease-in-out"></span>
+                        <span class="bars-line transition duration-300 ease-in-out"></span>
+                        <span class="bars-line origin-bottom-left transition duration-300 ease-in-out"></span>
                     </button>
+
                     <nav id="nav-menu"
-                        class="hidden absolute py-5 bg-primary shadow-lg rounded-lg max-w-[200px] w-full right-4 top-full lg:block lg:static lg:bg-transparent lg:max-w-full lg:shadow-none lg:rounded-none">
-                        <ul class="block lg:flex">
+                        class="hidden absolute py-5 bg-primary shadow-lg rounded-lg max-w-[200px] w-full right-4 top-full lg:flex lg:items-center lg:static lg:bg-transparent lg:max-w-full lg:shadow-none lg:rounded-none lg:py-0">
+                        <ul class="block lg:flex lg:items-center">
                             <li class="group">
                                 <a href="#"
                                     class="font-semibold text-white py-2 mx-8 flex group-hover:text-black lg:mx-4">Beranda</a>
                             </li>
-                            <li class="group">
+
+                            <li class="group relative">
                                 <a href="#"
-                                    class="font-semibold text-white py-2 mx-8 flex group-hover:text-black lg:mx-4">Profil</a>
+                                    class="font-semibold text-white py-2 mx-8 flex items-center gap-1 group-hover:text-black lg:mx-4">
+                                    Pendidikan
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                        stroke-width="2" stroke="currentColor"
+                                        class="w-3 h-3 transition-transform duration-300 group-hover:rotate-180">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                                    </svg>
+                                </a>
+
+                                <ul id="dropdown-pendidikan"
+                                    class="hidden lg:group-hover:block lg:absolute lg:top-full lg:left-0 lg:bg-primary lg:shadow-xl lg:rounded-xl lg:min-w-[200px] lg:py-2 ml-4 lg:ml-0">
+                                    <li>
+                                        <a href="#"
+                                            class="flex items-center gap-2 text-white font-medium text-sm py-2 px-5 hover:text-black transition duration-200">
+                                            <span class="w-1.5 h-1.5 rounded-full bg-white flex-shrink-0"></span>
+                                            RA Darussalam
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#"
+                                            class="flex items-center gap-2 text-white font-medium text-sm py-2 px-5 hover:text-black transition duration-200">
+                                            <span class="w-1.5 h-1.5 rounded-full bg-white flex-shrink-0"></span>
+                                            MI Darussalam
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#"
+                                            class="flex items-center gap-2 text-white font-medium text-sm py-2 px-5 hover:text-black transition duration-200">
+                                            <span class="w-1.5 h-1.5 rounded-full bg-white flex-shrink-0"></span>
+                                            MTs Darussalam
+                                        </a>
+                                    </li>
+                                </ul>
                             </li>
+
                             <li class="group">
                                 <a href="#portfolio"
-                                    class="font-semibold text-white py-2 mx-8 flex group-hover:text-black lg:mx-4">Info</a>
+                                    class="font-semibold text-white py-2 mx-8 flex group-hover:text-black lg:mx-4">Berita</a>
+                            </li>
+                            <li class="group">
+                                <a href="#"
+                                    class="font-semibold text-white py-2 mx-8 flex group-hover:text-black lg:mx-4">Prestasi</a>
                             </li>
                             <li class="group">
                                 <a href="#"
                                     class="font-semibold text-white py-2 mx-8 flex group-hover:text-black lg:mx-4">Galeri</a>
                             </li>
-                            <li class="group">
-                                <a href="#"
-                                    class="font-semibold text-white py-2 mx-8 flex group-hover:text-black lg:mx-4">Dokumen</a>
-                            </li>
-                            <li class="group">
-                                <a href="#"
-                                    class="font-semibold text-white py-2 mx-8 flex group-hover:text-black lg:mx-4">Kontak</a>
+
+                            <li class="hidden lg:block lg:ml-4">
+                                <a href=""
+                                    class="flex items-center gap-1.5 font-semibold text-sm text-primary bg-white border-2 border-white py-1.5 px-4 rounded-xl hover:text-black hover:bg-transparent hover:border-white transition duration-300">
+                                    Login
+                                </a>
                             </li>
                         </ul>
                     </nav>
+
                 </div>
             </div>
         </div>
@@ -69,24 +121,25 @@
     {{-- conten --}}
 
     {{-- footer --}}
-    <footer class="bg-primary pt-24 pb-10">
+    <footer class="pt-24 pb-10"
+        style="background: linear-gradient(135deg, #0a2e1a 0%, #0f4a28 40%, #1a6b3a 70%, #0d3d20 100%);">
         <div class="container">
-            <div class="sm:flex sm:flex-wrap -mt-5 justify-center">
+            <div class="sm:flex sm:flex-wrap -mt-5 justify-between">
                 <div class="px-6 max-w-46 mb-10">
                     <div class="w-full px-4 mb-4">
-                        <div class="w-full px-4 flex justify-center mt-20 mb-2 relative">
-                            <img src="../img/hmi.png" alt="logo"
+                        <div class="w-full px-4 flex flex-col items-center justify-center mt-20 mb-2 relative">
+                            <img src="{{ asset('img/logo.png') }}" alt="logo"
                                 class="size-24 -top-24 absolute hover:scale-105 transition">
-                            <h2 class="font-bold text-3xl font-sans text-white">HMI UNIBA</h2>
+                            <h1 class="font-bold text-xl font-sans text-white">Yayasan</h1>
+                            <h2 class="font-bold text-3xl font-sans text-white">Darul Istiqlal</h2>
                         </div>
                         <div class="w-full text-center">
-                            <p class="text-sm text-white">Website HMI Komisariat</p>
-                            <h4 class="font-semibold text-lg text-white font-sans">Universitas Bahaudin Mudhary</h4>
+                            <h4 class="font-semibold text-md text-white font-sans">Bilapora Rebba</h4>
                         </div>
                     </div>
                     <div class="w-full flex flex-wrap justify-center mx-auto">
                         <a href="#" target="_blank"
-                            class="w-7 h-7 mr-4 rounded-full flex justify-center items-center border border-slate-900 hover:border-slate-100 hover:bg-primary hover:text-slate-200 transition duration-300 animate-goyang">
+                            class="w-7 h-7 mr-4 rounded-full flex justify-center items-center border border-slate-900 hover:border-white hover:bg-primary hover:text-white transition duration-300 animate-goyang">
                             <svg role="img" width="16" class="fill-current" viewBox="0 0 24 24"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <title>Instagram</title>
@@ -95,7 +148,7 @@
                             </svg>
                         </a>
                         <a href="#" target="_blank"
-                            class="w-7 h-7 mr-4 rounded-full flex justify-center items-center border border-slate-900 hover:border-slate-100 hover:bg-primary hover:text-slate-200 transition duration-300 animate-goyang">
+                            class="w-7 h-7 mr-4 rounded-full flex justify-center items-center border border-slate-900 hover:border-white hover:bg-primary hover:text-white transition duration-300 animate-goyang">
                             <svg role="img" width="16" class="fill-current" viewBox="0 0 24 24"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <title>TikTok</title>
@@ -104,7 +157,7 @@
                             </svg>
                         </a>
                         <a href="#" target="_blank"
-                            class="w-7 h-7 mr-4 rounded-full flex justify-center items-center border border-slate-900 hover:border-slate-100 hover:bg-primary hover:text-slate-200 transition duration-300 animate-goyang">
+                            class="w-7 h-7 mr-4 rounded-full flex justify-center items-center border border-slate-900 hover:border-white hover:bg-primary hover:text-white transition duration-300 animate-goyang">
                             <svg role="img" width="16" class="fill-current" viewBox="0 0 24 24"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <title>Facebook</title>
@@ -113,7 +166,7 @@
                             </svg>
                         </a>
                         <a href="#" target="_blank"
-                            class="w-7 h-7 mr-4 rounded-full flex justify-center items-center border border-slate-900 hover:border-slate-100 hover:bg-primary hover:text-slate-200 transition duration-300 animate-goyang">
+                            class="w-7 h-7 mr-4 rounded-full flex justify-center items-center border border-slate-900 hover:border-white hover:bg-primary hover:text-white transition duration-300 animate-goyang">
                             <svg role="img" width="16" class="fill-current" viewBox="0 0 24 24"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <title>WhatsApp</title>
@@ -132,7 +185,7 @@
                                 <path stroke-linecap="round" stroke-linejoin="round"
                                     d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
                             </svg>
-                            <a href="#" class="text-white text-sm mt-1">hmi.komisariat.uniba@gmail.com</a>
+                            <a href="#" class="text-white text-sm mt-1">yayasandarulistiqlal@gmail.com</a>
                         </div>
                         <div class="flex flex-wrap px-4 mb-5 relative">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -157,7 +210,7 @@
                     </div>
                 </div>
                 <div class="px-4 max-w-46">
-                    <div class="max-w-full mx-auto">
+                    <div class="max-w-full mx-auto pr-36">
                         <h2 class="font-bold text-lg text-white mb-5">Useful Link</h2>
                         <div class="flex flex-wrap mb-5">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -166,7 +219,7 @@
                                     d="m5.25 4.5 7.5 7.5-7.5 7.5m6-15 7.5 7.5-7.5 7.5" />
                             </svg>
                             <a href=""
-                                class="text-base text-white font-sans ml-3 -mt-2 tracking-wider">Profil</a>
+                                class="text-base text-white font-sans ml-3 -mt-2 tracking-wider">Beranda</a>
                         </div>
                         <div class="flex flex-wrap mb-5">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -175,7 +228,16 @@
                                     d="m5.25 4.5 7.5 7.5-7.5 7.5m6-15 7.5 7.5-7.5 7.5" />
                             </svg>
                             <a href=""
-                                class="text-base text-white font-sans ml-3 -mt-2 tracking-wider">info</a>
+                                class="text-base text-white font-sans ml-3 -mt-2 tracking-wider">Berita</a>
+                        </div>
+                        <div class="flex flex-wrap mb-5">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                stroke-width="1.5" stroke="currentColor" class="size-3 text-white ml-5">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="m5.25 4.5 7.5 7.5-7.5 7.5m6-15 7.5 7.5-7.5 7.5" />
+                            </svg>
+                            <a href=""
+                                class="text-base text-white font-sans ml-3 -mt-2 tracking-wider">Prestasi</a>
                         </div>
                         <div class="flex flex-wrap mb-5">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -186,20 +248,11 @@
                             <a href=""
                                 class="text-base text-white font-sans ml-3 -mt-2 tracking-wider">Galeri</a>
                         </div>
-                        <div class="flex flex-wrap mb-5">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                stroke-width="1.5" stroke="currentColor" class="size-3 text-white ml-5">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="m5.25 4.5 7.5 7.5-7.5 7.5m6-15 7.5 7.5-7.5 7.5" />
-                            </svg>
-                            <a href=""
-                                class="text-base text-white font-sans ml-3 -mt-2 tracking-wider">Dokumen</a>
-                        </div>
                     </div>
                 </div>
             </div>
             <div class="max-w-full mx-auto border-t border-slate-500">
-                <p class="sm:text-base text-sm text-white text-center py-2 font-sans">HMI Komisariat Uniba Madura</p>
+                <p class="sm:text-base text-sm text-white text-center py-2 font-sans">©2026 Yayasan Darul Istiqlal. All rights reserved.</p>
             </div>
         </div>
     </footer>

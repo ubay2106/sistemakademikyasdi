@@ -21,6 +21,25 @@ window.onscroll = function(){
 
 };
 
+// dropdown pendi
+const pendidikanLink = document.querySelector('#dropdown-pendidikan').previousElementSibling;
+const dropdownPendidikan = document.getElementById('dropdown-pendidikan');
+
+pendidikanLink.addEventListener('click', function (e) {
+    const isMobile = window.innerWidth < 1024;
+    if (isMobile) {
+        e.preventDefault();
+        dropdownPendidikan.classList.toggle('hidden');
+    }
+});
+
+document.addEventListener('click', function (e) {
+    const isMobile = window.innerWidth < 1024;
+    if (isMobile && !pendidikanLink.contains(e.target)) {
+        dropdownPendidikan.classList.add('hidden');
+    }
+});
+
 // swiper
 const swiper = new Swiper('.swiper', {
     speed: 400,
