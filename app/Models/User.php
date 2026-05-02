@@ -10,6 +10,11 @@ use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
+    public function guru()
+    {
+        return $this->hasOne(Guru::class);
+    }
+
     use HasApiTokens, HasFactory, Notifiable;
 
     /**
@@ -17,7 +22,7 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
-    protected $fillable = ['name', 'username', 'password', 'role'];
+    protected $fillable = ['name', 'username', 'email', 'password', 'role', 'is_active'];
 
     /**
      * The attributes that should be hidden for serialization.
@@ -34,4 +39,5 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
 }

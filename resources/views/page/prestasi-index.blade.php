@@ -41,22 +41,8 @@
                 </svg>
             </div>
             <h3 class="text-lg font-bold text-gray-700 mb-2">Belum Ada Prestasi</h3>
-            <p class="text-gray-400 text-sm">Coba ubah filter atau kata kunci pencarian Anda.</p>
         </div>
         @else
-
-        {{-- Hasil Info --}}
-        <div class="flex items-center justify-between mb-8">
-            <p class="text-sm text-gray-500">
-                Menampilkan <span class="font-semibold text-gray-700">{{ $prestasis->total() }}</span> prestasi
-            </p>
-            <div class="flex items-center gap-2 text-xs text-gray-400">
-                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
-                </svg>
-                Terbaru
-            </div>
-        </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
             @foreach($prestasis as $item)

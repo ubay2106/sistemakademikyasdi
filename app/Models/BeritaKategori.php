@@ -22,4 +22,6 @@ class BeritaKategori extends Model
     {
         return $this->hasMany(Berita::class, 'berita_kategori_id');
     }
+
+    use HasFactory;
 }

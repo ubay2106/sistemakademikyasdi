@@ -49,6 +49,117 @@
                     <span class="font-medium text-sm">Dashboard</span>
                 </a>
 
+                <div x-data="{ open: {{ request()->routeIs('admin.guru.*') || request()->routeIs('admin.siswa.*') || request()->routeIs('admin.kelas.*') || request()->routeIs('admin.mata-pelajaran.*') ? 'true' : 'false' }} }">
+
+                    <button @click="open = !open"
+                        class="sidebar-link w-full flex items-center gap-3 px-4 py-3 rounded-lg text-white/70 hover:text-white transition duration-200 {{ request()->routeIs('admin.guru.*') || request()->routeIs('admin.siswa.*') || request()->routeIs('admin.kelas.*') || request()->routeIs('admin.mata-pelajaran.*') ? 'active text-white' : '' }}">
+
+                        <div class="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center flex-shrink-0">
+                            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M3.75 5.25h16.5M3.75 9h16.5M3.75 12.75h16.5M3.75 16.5h16.5M3.75 20.25h16.5" />
+                            </svg>
+                        </div>
+
+                        <span class="font-medium text-sm">Data Master</span>
+
+                        <svg class="w-4 h-4 ml-auto transition-transform duration-200" :class="open ? 'rotate-90' : ''"
+                            fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                        </svg>
+                    </button>
+
+                    <div x-show="open" x-transition:enter="transition ease-out duration-200"
+                        x-transition:enter-start="opacity-0 -translate-y-1"
+                        x-transition:enter-end="opacity-100 translate-y-0" class="mt-1 ml-4 space-y-0.5">
+
+                        <a href="{{ route('guru.index') }}"
+                            class="flex items-center gap-2.5 pl-9 pr-4 py-2 rounded-lg text-sm text-white/60 hover:text-white transition duration-200 {{ request()->routeIs('admin.guru.*') ? 'text-green-400' : '' }}">
+                            <span class="w-1.5 h-1.5 rounded-full bg-current flex-shrink-0"></span>
+                            Data Guru
+                        </a>
+
+                        <a href=""
+                            class="flex items-center gap-2.5 pl-9 pr-4 py-2 rounded-lg text-sm text-white/60 hover:text-white transition duration-200 {{ request()->routeIs('admin.siswa.*') ? 'text-green-400' : '' }}">
+                            <span class="w-1.5 h-1.5 rounded-full bg-current flex-shrink-0"></span>
+                            Data Siswa
+                        </a>
+
+                        <a href=""
+                            class="flex items-center gap-2.5 pl-9 pr-4 py-2 rounded-lg text-sm text-white/60 hover:text-white transition duration-200 {{ request()->routeIs('admin.kelas.*') ? 'text-green-400' : '' }}">
+                            <span class="w-1.5 h-1.5 rounded-full bg-current flex-shrink-0"></span>
+                            Data Kelas
+                        </a>
+
+                        <a href=""
+                            class="flex items-center gap-2.5 pl-9 pr-4 py-2 rounded-lg text-sm text-white/60 hover:text-white transition duration-200 {{ request()->routeIs('admin.mata-pelajaran.*') ? 'text-green-400' : '' }}">
+                            <span class="w-1.5 h-1.5 rounded-full bg-current flex-shrink-0"></span>
+                            Mata Pelajaran
+                        </a>
+
+                    </div>
+                </div>
+
+                <div x-data="{ open: {{ request()->routeIs('admin.tahun-ajaran.*') || request()->routeIs('admin.semester.*') || request()->routeIs('admin.siswa-kelas.*') || request()->routeIs('admin.pengajar.*') || request()->routeIs('admin.nilai-siswa.*') ? 'true' : 'false' }} }">
+
+                    <button @click="open = !open"
+                        class="sidebar-link w-full flex items-center gap-3 px-4 py-3 rounded-lg text-white/70 hover:text-white transition duration-200
+        {{ request()->routeIs('admin.tahun-ajaran.*') || request()->routeIs('admin.semester.*') || request()->routeIs('admin.siswa-kelas.*') || request()->routeIs('admin.pengajar.*') || request()->routeIs('admin.nilai-siswa.*') ? 'active text-white' : '' }}">
+
+                        <div class="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center flex-shrink-0">
+                            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25A8.967 8.967 0 0118 3.75c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
+                            </svg>
+                        </div>
+
+                        <span class="font-medium text-sm">Akademik</span>
+
+                        <svg class="w-4 h-4 ml-auto transition-transform duration-200" :class="open ? 'rotate-90' : ''"
+                            fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                        </svg>
+                    </button>
+
+                    <div x-show="open" x-transition:enter="transition ease-out duration-200"
+                        x-transition:enter-start="opacity-0 -translate-y-1"
+                        x-transition:enter-end="opacity-100 translate-y-0" class="mt-1 ml-4 space-y-0.5">
+
+                        <a href=""
+                            class="flex items-center gap-2.5 pl-9 pr-4 py-2 rounded-lg text-sm text-white/60 hover:text-white transition duration-200 {{ request()->routeIs('admin.tahun-ajaran.*') ? 'text-green-400' : '' }}">
+                            <span class="w-1.5 h-1.5 rounded-full bg-current flex-shrink-0"></span>
+                            Tahun Ajaran
+                        </a>
+
+                        <a href=""
+                            class="flex items-center gap-2.5 pl-9 pr-4 py-2 rounded-lg text-sm text-white/60 hover:text-white transition duration-200 {{ request()->routeIs('admin.semester.*') ? 'text-green-400' : '' }}">
+                            <span class="w-1.5 h-1.5 rounded-full bg-current flex-shrink-0"></span>
+                            Semester
+                        </a>
+
+                        <a href=""
+                            class="flex items-center gap-2.5 pl-9 pr-4 py-2 rounded-lg text-sm text-white/60 hover:text-white transition duration-200 {{ request()->routeIs('admin.siswa-kelas.*') ? 'text-green-400' : '' }}">
+                            <span class="w-1.5 h-1.5 rounded-full bg-current flex-shrink-0"></span>
+                            Siswa Kelas
+                        </a>
+
+                        <a href=""
+                            class="flex items-center gap-2.5 pl-9 pr-4 py-2 rounded-lg text-sm text-white/60 hover:text-white transition duration-200 {{ request()->routeIs('admin.pengajar.*') ? 'text-green-400' : '' }}">
+                            <span class="w-1.5 h-1.5 rounded-full bg-current flex-shrink-0"></span>
+                            Pengajar
+                        </a>
+
+                        <a href=""
+                            class="flex items-center gap-2.5 pl-9 pr-4 py-2 rounded-lg text-sm text-white/60 hover:text-white transition duration-200 {{ request()->routeIs('admin.nilai-siswa.*') ? 'text-green-400' : '' }}">
+                            <span class="w-1.5 h-1.5 rounded-full bg-current flex-shrink-0"></span>
+                            Nilai Siswa
+                        </a>
+
+                    </div>
+                </div>
+
                 <div x-data="{ open: {{ request()->routeIs('admin.berita.*') ? 'true' : 'false' }} }">
 
                     <button @click="open = !open"

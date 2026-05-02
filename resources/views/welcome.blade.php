@@ -388,74 +388,171 @@
         </div>
     </section>
 
-    <section class="pt-36 pb-32 bg-cover bg-no-repeat" style="background-image: url('{{ asset('img/bg2.jpeg') }}')">
-        <div class="container">
-            <div class="max-w-full text-center">
-                <p
-                    class="text-xs sm:text-sm text-white max-w-36 border border-white uppercase font-sans px-2 py-1 mx-auto rounded-full mb-2 -mt-10">
-                    GURU KAMI</p>
-                <h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold font-sans text-white mb-12 sm:mb-16 tracking-wider">
-                    Tenaga pendidik profesional di sekolah kami</h2>
+    <section class="relative py-28 overflow-hidden bg-primary">
+    {{-- Background decorative --}}
+    <div class="absolute inset-0 pointer-events-none">
+        <div class="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/30 to-transparent"></div>
+        <div class="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/30 to-transparent"></div>
+
+        <div class="absolute -top-32 -left-32 w-96 h-96 rounded-full bg-white/10 blur-3xl"></div>
+        <div class="absolute -bottom-32 -right-32 w-96 h-96 rounded-full bg-white/10 blur-3xl"></div>
+
+        <div class="absolute inset-0 opacity-[0.05]"
+            style="background-image: radial-gradient(circle, #ffffff 1px, transparent 1px); background-size: 32px 32px;">
+        </div>
+    </div>
+
+    <div class="container relative z-10 px-4 mx-auto">
+        {{-- Header --}}
+        <div class="text-center mb-16">
+            <span
+                class="inline-block text-xs tracking-[0.3em] uppercase font-bold text-white border border-white/30 bg-white/10 px-4 py-1.5 rounded-full mb-4">
+                ✦ GURU KAMI
+            </span>
+
+            <h2 class="text-3xl sm:text-4xl lg:text-5xl font-black text-white leading-tight tracking-tight mb-4"
+                style="font-family: 'Georgia', serif; letter-spacing: -0.02em;">
+                Tenaga Pendidik
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-white to-white/70">
+                    Profesional
+                </span>
+            </h2>
+
+            <p class="text-white/70 text-base sm:text-lg max-w-xl mx-auto leading-relaxed">
+                Didedikasikan untuk mencerdaskan generasi bangsa dengan pengalaman dan keahlian terbaik.
+            </p>
+        </div>
+
+        {{-- Swiper Carousel --}}
+        <div class="swiper guru-swiper max-w-6xl mx-auto px-2">
+            <div class="swiper-wrapper pb-12">
+
+                @forelse ($gurus as $guru)
+                    <div class="swiper-slide">
+                        <div
+                            class="group relative flex flex-col bg-white/10 backdrop-blur-md border border-white/10 rounded-2xl overflow-hidden shadow-xl hover:border-white/30 transition-all duration-500 hover:-translate-y-1 mx-auto max-w-72">
+
+                            {{-- Top accent bar --}}
+                            <div
+                                class="absolute top-0 left-0 w-full h-0.5 bg-gradient-to-r from-white/30 via-white to-white/30 scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left">
+                            </div>
+
+                            {{-- Photo area --}}
+                            <div class="relative pt-8 pb-4 flex flex-col items-center">
+                                <div
+                                    class="relative w-20 h-20 rounded-full overflow-hidden border-2 border-white/30 group-hover:border-white transition-colors duration-300 shadow-lg">
+                                    @if ($guru->foto)
+                                        <img src="{{ asset('storage/' . $guru->foto) }}"
+                                            alt="{{ $guru->nama }}"
+                                            class="w-full h-full object-cover">
+                                    @else
+                                        <div
+                                            class="w-full h-full bg-white/10 flex items-center justify-center">
+                                            <span class="text-2xl font-bold text-white">
+                                                {{ strtoupper(substr($guru->nama, 0, 1)) }}
+                                            </span>
+                                        </div>
+                                    @endif
+                                </div>
+
+                                {{-- Gender badge --}}
+                                @if ($guru->jenis_kelamin)
+                                    <span
+                                        class="mt-2 text-[10px] tracking-widest uppercase font-bold px-2 py-0.5 rounded-full border border-white/20 bg-white/10 text-white">
+                                        {{ $guru->jenis_kelamin === 'L' ? '♂ Laki-laki' : '♀ Perempuan' }}
+                                    </span>
+                                @endif
+                            </div>
+
+                            {{-- Content --}}
+                            <div class="px-5 pb-6 text-center flex flex-col flex-1">
+                                <h3 class="text-base font-bold text-white mb-0.5 leading-snug">
+                                    {{ $guru->nama }}
+                                </h3>
+
+                                @if ($guru->nip)
+                                    <p class="text-[11px] text-white/60 font-mono mb-3">
+                                        NIP: {{ $guru->nip }}
+                                    </p>
+                                @endif
+
+                                <div class="mt-auto space-y-1.5">
+                                    @if ($guru->tempat_lahir && $guru->tanggal_lahir)
+                                        <div class="flex items-center justify-center gap-1.5 text-[12px] text-white/70">
+                                            <svg class="w-3 h-3 shrink-0 text-white" fill="none"
+                                                stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                    stroke-width="2"
+                                                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                            </svg>
+                                            {{ $guru->tempat_lahir }},
+                                            {{ \Carbon\Carbon::parse($guru->tanggal_lahir)->translatedFormat('d M Y') }}
+                                        </div>
+                                    @endif
+
+                                    @if ($guru->no_hp)
+                                        <div class="flex items-center justify-center gap-1.5 text-[12px] text-white/70">
+                                            <svg class="w-3 h-3 shrink-0 text-white" fill="none"
+                                                stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                    stroke-width="2"
+                                                    d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 8V5z" />
+                                            </svg>
+                                            {{ $guru->no_hp }}
+                                        </div>
+                                    @endif
+                                </div>
+
+                                {{-- CTA --}}
+                                <a href="{{ route('page.guru-show', $guru->id) }}"
+                                    class="mt-5 inline-flex items-center justify-center gap-1.5 text-xs font-semibold text-white border border-white/30 hover:bg-white/10 px-4 py-2 rounded-full transition-all duration-300 group-hover:border-white/60">
+                                    Lihat Profil
+                                    <svg class="w-3 h-3 translate-x-0 group-hover:translate-x-0.5 transition-transform"
+                                        fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            stroke-width="2" d="M9 5l7 7-7 7" />
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                @empty
+                    <div class="swiper-slide">
+                        <div class="text-center text-white/70 py-16">
+                            <p class="text-lg">Belum ada data guru.</p>
+                        </div>
+                    </div>
+                @endforelse
+
             </div>
-            <div class="swiper max-w-full mx-auto px-3 py-3">
-                <div class="swiper-wrapper mb-7">
-                    <div class="swiper-slide">
-                        <div class="flex flex-col max-w-80 bg-white shadow-xl px-6 py-4 mx-auto rounded-lg">
-                            <div class="max-w-14 max-h-14 rounded-full mx-auto bg-black overflow-hidden mt-4 mb-6">
-                                <img src="../img/org.jpeg" alt="" class="w-full">
-                            </div>
-                            <div class="px-3 py-2 text-center">
-                                <p class="text-base font-sans mb-8">Lorem ipsum, dolor sit amet consectetur adipisicing
-                                    elit. Cum earum magni, corporis harum expedita quod eligendi exercitationem iste.</p>
-                                <h2 class="text-lg font-semibold font-sans text-primary">Prof. Dr GMPK</h2>
-                                <h4 class="text-sm italic">Sekretaris</h4>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="flex flex-col max-w-80 bg-white shadow-xl px-6 py-4 mx-auto rounded-lg">
-                            <div class="max-w-14 max-h-14 rounded-full mx-auto bg-black overflow-hidden mt-4 mb-6">
-                                <img src="../img/org.jpeg" alt="" class="w-full">
-                            </div>
-                            <div class="px-3 py-2 text-center">
-                                <p class="text-base font-sans mb-8">Lorem ipsum dolor, sit amet consectetur adipisicing
-                                    elit. Similique corrupti numquam facere sed recusandae modi eum itaque?</p>
-                                <h2 class="text-lg font-semibold font-sans text-primary">Prof. Dr GMPK</h2>
-                                <h4 class="text-sm italic">Ketua</h4>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="flex flex-col max-w-80 bg-white shadow-xl px-6 py-4 mx-auto rounded-lg">
-                            <div class="max-w-14 max-h-14 rounded-full mx-auto bg-black overflow-hidden mt-4 mb-6">
-                                <img src="../img/org.jpeg" alt="" class="w-full">
-                            </div>
-                            <div class="px-3 py-2 text-center">
-                                <p class="text-base font-sans mb-8">Lorem ipsum dolor sit amet consectetur adipisicing
-                                    elit. Illo quaerat necessitatibus corrupti voluptatem ipsa consectetur dignis.</p>
-                                <h2 class="text-lg font-semibold font-sans text-primary">Prof. Dr GMPK</h2>
-                                <h4 class="text-sm italic">Bendahara</h4>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="flex flex-col max-w-80 bg-white shadow-xl px-6 py-4 mx-auto rounded-lg">
-                            <div class="max-w-14 max-h-14 rounded-full mx-auto bg-black overflow-hidden mt-4 mb-6">
-                                <img src="../img/org.jpeg" alt="" class="w-full">
-                            </div>
-                            <div class="px-3 py-2 text-center">
-                                <p class="text-base font-sans mb-8">Lorem ipsum dolor sit amet consectetur adipisicing
-                                    elit. Animi reiciendis voluptatem dolores, quam nobis impedit commodi deserunt</p>
-                                <h2 class="text-lg font-semibold font-sans text-primary">Prof. Dr GMPK</h2>
-                                <h4 class="text-sm italic">Humas</h4>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="swiper-pagination"></div>
+
+            {{-- Navigation --}}
+            <div
+                class="swiper-button-prev !text-white !w-9 !h-9 after:!text-sm !bg-white/10 !border !border-white/30 !rounded-full hover:!bg-white/20 transition-colors !-left-1 sm:!-left-4">
+            </div>
+
+            <div
+                class="swiper-button-next !text-white !w-9 !h-9 after:!text-sm !bg-white/10 !border !border-white/30 !rounded-full hover:!bg-white/20 transition-colors !-right-1 sm:!-right-4">
+            </div>
+
+            <div
+                class="swiper-pagination !bottom-0 [&_.swiper-pagination-bullet]:!bg-white/40 [&_.swiper-pagination-bullet-active]:!bg-white">
             </div>
         </div>
-    </section>
+
+        {{-- Bottom CTA --}}
+        <div class="text-center mt-12">
+            <a href="{{ route('guru.index') }}"
+                class="inline-flex items-center gap-2 text-sm font-semibold text-primary bg-white px-6 py-3 rounded-full hover:bg-white/90 transition shadow-lg">
+                Lihat Semua Guru
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+            </a>
+        </div>
+    </div>
+</section>
 
     <section id="prestasi" class="py-28 bg-white relative overflow-hidden">
 
@@ -599,4 +696,36 @@
     </section>
 
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    @push('scripts')
+        <script>
+            new Swiper('.guru-swiper', {
+                slidesPerView: 1,
+                spaceBetween: 24,
+                loop: true,
+                autoplay: {
+                    delay: 4000,
+                    disableOnInteraction: false
+                },
+                pagination: {
+                    el: '.swiper-pagination',
+                    clickable: true
+                },
+                navigation: {
+                    nextEl: '.swiper-button-next',
+                    prevEl: '.swiper-button-prev'
+                },
+                breakpoints: {
+                    640: {
+                        slidesPerView: 2
+                    },
+                    1024: {
+                        slidesPerView: 3
+                    },
+                    1280: {
+                        slidesPerView: 4
+                    },
+                },
+            });
+        </script>
+    @endpush
 @endsection

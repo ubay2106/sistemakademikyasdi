@@ -30,4 +30,6 @@ protected $casts = [
     'tanggal' => 'date',
     'is_featured' => 'boolean',
 ];
+
+use HasFactory;
 }

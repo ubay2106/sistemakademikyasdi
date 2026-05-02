@@ -104,7 +104,7 @@
                                     class="font-semibold text-white py-2 mx-8 flex group-hover:text-black lg:mx-4">Berita</a>
                             </li>
                             <li class="group">
-                                <a href="#"
+                                <a href="{{ route('page.prestasi-index') }}"
                                     class="font-semibold text-white py-2 mx-8 flex group-hover:text-black lg:mx-4">Prestasi</a>
                             </li>
                             <li class="group">
@@ -160,7 +160,7 @@
                         </div>
                     </div>
                     <div class="w-full flex flex-wrap justify-center mx-auto">
-                        <a href="#" target="_blank"
+                        <a href="https://www.instagram.com/yasdi_media?igsh=MTEwdTN1MGlpd2E4eQ==" target="_blank"
                             class="w-7 h-7 mr-4 rounded-full flex justify-center items-center border border-slate-900 hover:border-white hover:bg-primary hover:text-white transition duration-300 animate-goyang">
                             <svg role="img" width="16" class="fill-current" viewBox="0 0 24 24"
                                 xmlns="http://www.w3.org/2000/svg">
@@ -187,7 +187,7 @@
                                     d="M9.101 23.691v-7.98H6.627v-3.667h2.474v-1.58c0-4.085 1.848-5.978 5.858-5.978.401 0 .955.042 1.468.103a8.68 8.68 0 0 1 1.141.195v3.325a8.623 8.623 0 0 0-.653-.036 26.805 26.805 0 0 0-.733-.009c-.707 0-1.259.096-1.675.309a1.686 1.686 0 0 0-.679.622c-.258.42-.374.995-.374 1.752v1.297h3.919l-.386 2.103-.287 1.564h-3.246v8.245C19.396 23.238 24 18.179 24 12.044c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.628 3.874 10.35 9.101 11.647Z" />
                             </svg>
                         </a>
-                        <a href="#" target="_blank"
+                        <a href="https://wa.me/6281945553965" target="_blank"
                             class="w-7 h-7 mr-4 rounded-full flex justify-center items-center border border-slate-900 hover:border-white hover:bg-primary hover:text-white transition duration-300 animate-goyang">
                             <svg role="img" width="16" class="fill-current" viewBox="0 0 24 24"
                                 xmlns="http://www.w3.org/2000/svg">
@@ -218,8 +218,7 @@
                                 <path stroke-linecap="round" stroke-linejoin="round"
                                     d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
                             </svg>
-                            <a href="#" class="text-white text-sm mt-1 ml-9 sm:max-w-60">Jl. Raya Lenteng,
-                                Aredake, Batuan, Kec. Batuan, Kabupaten Sumenep, Jawa Timur 69451</a>
+                            <a href="#" class="text-white text-sm mt-1 ml-9 sm:max-w-60">Dusun Taman, Bilapora Reba, Kec. Lenteng, Kab. Sumenep, Jawa Timur.</a>
                         </div>
                         <div class="flex flex-wrap px-4 mb-5">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -227,7 +226,7 @@
                                 <path stroke-linecap="round" stroke-linejoin="round"
                                     d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 0 1-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z" />
                             </svg>
-                            <a href="#" class="text-white text-sm mt-1 ml-9">+6287883353112</a>
+                            <a href="https://wa.me/6281945553965" class="text-white text-sm mt-1 ml-9">+6281945553965</a>
                         </div>
                     </div>
                 </div>
@@ -240,7 +239,7 @@
                                 <path stroke-linecap="round" stroke-linejoin="round"
                                     d="m5.25 4.5 7.5 7.5-7.5 7.5m6-15 7.5 7.5-7.5 7.5" />
                             </svg>
-                            <a href=""
+                            <a href="/"
                                 class="text-base text-white font-sans ml-3 -mt-2 tracking-wider">Beranda</a>
                         </div>
                         <div class="flex flex-wrap mb-5">
@@ -249,7 +248,7 @@
                                 <path stroke-linecap="round" stroke-linejoin="round"
                                     d="m5.25 4.5 7.5 7.5-7.5 7.5m6-15 7.5 7.5-7.5 7.5" />
                             </svg>
-                            <a href=""
+                            <a href="{{ route('page.berita-index') }}"
                                 class="text-base text-white font-sans ml-3 -mt-2 tracking-wider">Berita</a>
                         </div>
                         <div class="flex flex-wrap mb-5">
@@ -258,7 +257,7 @@
                                 <path stroke-linecap="round" stroke-linejoin="round"
                                     d="m5.25 4.5 7.5 7.5-7.5 7.5m6-15 7.5 7.5-7.5 7.5" />
                             </svg>
-                            <a href=""
+                            <a href="{{ route('page.prestasi-index') }}"
                                 class="text-base text-white font-sans ml-3 -mt-2 tracking-wider">Prestasi</a>
                         </div>
                         <div class="flex flex-wrap mb-5">

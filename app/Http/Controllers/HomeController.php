@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\Berita;
 use App\Models\Prestasi;
 use Illuminate\Http\Request;
+use App\Models\Guru;
 
 class HomeController extends Controller
 {
@@ -22,7 +23,11 @@ class HomeController extends Controller
             ->take(4)
             ->get();
 
-        return view('welcome', compact('beritas', 'prestasis'));
+        $gurus = Guru::latest()
+        ->take(8) // sesuaikan jumlah slider
+        ->get();
+
+        return view('welcome', compact('beritas', 'prestasis', 'gurus'));
     }
 
     /**
