@@ -37,7 +37,7 @@
 
                 <p class="text-white/30 text-[10px] uppercase tracking-widest font-semibold px-4 mb-3">Menu Utama</p>
 
-                <a href=""
+                <a href="{{ route('admin.dashboard') }}"
                     class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg text-white/70 hover:text-white transition duration-200 {{ request()->routeIs('admin.dashboard') ? 'active text-white' : '' }}">
                     <div class="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center flex-shrink-0">
                         <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -49,21 +49,47 @@
                     <span class="font-medium text-sm">Dashboard</span>
                 </a>
 
-                <a href=""
-                    class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg text-white/70 hover:text-white transition duration-200 {{ request()->routeIs('admin.berita.*') ? 'active text-white' : '' }}">
-                    <div class="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center flex-shrink-0">
-                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                            stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                d="M12 7.5h1.5m-1.5 3h1.5m-7.5 3h7.5m-7.5 3h7.5m3-9h3.375c.621 0 1.125.504 1.125 1.125V18a2.25 2.25 0 0 1-2.25 2.25M16.5 7.5V18a2.25 2.25 0 0 0 2.25 2.25M16.5 7.5V4.875c0-.621-.504-1.125-1.125-1.125H4.125C3.504 3.75 3 4.254 3 4.875V18a2.25 2.25 0 0 0 2.25 2.25h13.5M6 7.5h3v3H6v-3Z" />
-                        </svg>
-                    </div>
-                    <span class="font-medium text-sm">Berita</span>
-                    <span
-                        class="ml-auto bg-green-400/20 text-green-400 text-[10px] font-bold px-2 py-0.5 rounded-full"></span>
-                </a>
+                <div x-data="{ open: {{ request()->routeIs('admin.berita.*') ? 'true' : 'false' }} }">
 
-                <a href=""
+                    <button @click="open = !open"
+                        class="sidebar-link w-full flex items-center gap-3 px-4 py-3 rounded-lg text-white/70 hover:text-white transition duration-200
+               {{ request()->routeIs('admin.berita.*') ? 'active text-white' : '' }}">
+                        <div class="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center flex-shrink-0">
+                            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M12 7.5h1.5m-1.5 3h1.5m-7.5 3h7.5m-7.5 3h7.5m3-9h3.375c.621 0 1.125.504 1.125 1.125V18a2.25 2.25 0 0 1-2.25 2.25M16.5 7.5V18a2.25 2.25 0 0 0 2.25 2.25M16.5 7.5V4.875c0-.621-.504-1.125-1.125-1.125H4.125C3.504 3.75 3 4.254 3 4.875V18a2.25 2.25 0 0 0 2.25 2.25h13.5M6 7.5h3v3H6v-3Z" />
+                            </svg>
+                        </div>
+                        <span class="font-medium text-sm">Berita</span>
+                        <svg class="w-4 h-4 ml-auto transition-transform duration-200" :class="open ? 'rotate-90' : ''"
+                            fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                        </svg>
+                    </button>
+
+                    <div x-show="open" x-transition:enter="transition ease-out duration-200"
+                        x-transition:enter-start="opacity-0 -translate-y-1"
+                        x-transition:enter-end="opacity-100 translate-y-0" class="mt-1 ml-4 space-y-0.5">
+
+                        <a href="{{ route('berita.index') }}"
+                            class="flex items-center gap-2.5 pl-9 pr-4 py-2 rounded-lg text-sm text-white/60 hover:text-white transition duration-200
+                   {{ request()->routeIs('admin.berita.index') ? 'text-green-400' : '' }}">
+                            <span class="w-1.5 h-1.5 rounded-full bg-current flex-shrink-0"></span>
+                            Data Berita
+                        </a>
+
+                        <a href="{{ route('kategori.index') }}"
+                            class="flex items-center gap-2.5 pl-9 pr-4 py-2 rounded-lg text-sm text-white/60 hover:text-white transition duration-200
+                   {{ request()->routeIs('admin.kategori.*') ? 'text-green-400' : '' }}">
+                            <span class="w-1.5 h-1.5 rounded-full bg-current flex-shrink-0"></span>
+                            Kategori
+                        </a>
+
+                    </div>
+                </div>
+
+                <a href="{{ route('prestasi.index') }}"
                     class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg text-white/70 hover:text-white transition duration-200 {{ request()->routeIs('admin.prestasi.*') ? 'active text-white' : '' }}">
                     <div class="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center flex-shrink-0">
                         <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -101,7 +127,7 @@
                         <p class="text-white/40 text-xs truncate">Administrator</p>
                     </div>
                 </div>
-                <form method="POST" action="">
+                <form method="POST" action="{{ route('logout') }}">
                     @csrf
                     <button type="submit"
                         class="w-full flex items-center gap-2 px-4 py-2.5 rounded-lg text-red-400/80 hover:text-red-400 hover:bg-red-400/10 transition duration-200 text-sm font-medium">
@@ -136,7 +162,8 @@
                     </div>
                 </div>
                 <div class="flex items-center gap-3">
-                    <span class="hidden sm:block text-xs text-gray-400">{{ now()->isoFormat('dddd, D MMMM Y') }}</span>
+                    <span
+                        class="hidden sm:block text-xs text-gray-400">{{ now()->isoFormat('dddd, D MMMM Y') }}</span>
                     <a href="{{ url('/') }}" target="_blank"
                         class="flex items-center gap-1.5 text-xs font-semibold text-primary border border-primary/30 px-3 py-1.5 rounded-lg hover:bg-primary hover:text-white transition duration-200">
                         <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -177,6 +204,7 @@
     </script>
 
     @stack('scripts')
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 </body>
 
 </html>

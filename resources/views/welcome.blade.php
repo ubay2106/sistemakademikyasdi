@@ -27,8 +27,8 @@
                     </div>
 
                     <h1 class="text-white text-3xl font-bold leading-tight lg:text-5xl mb-2">
-                        Yayasan<br>
-                        <span class="text-green-400">Darul Istiqlal</span>
+                        YAYASAN<br>
+                        <span class="text-green-400">DARUL ISTIQLAL</span>
                     </h1>
                     <h2 class="text-green-300 font-medium text-sm mb-5 lg:text-base">
                         Bilapora Rebba Kec. Lenteng Kab. Sumenep
@@ -74,12 +74,12 @@
                     <p class="text-white/50 text-xs uppercase tracking-widest mt-1">Tahun Berdiri</p>
                 </div>
                 <div class="text-center px-4 py-2" style="border-right: 1px solid rgba(255,255,255,0.1);">
-                    <p class="text-green-400 text-2xl font-bold">500+</p>
+                    <p class="text-green-400 text-2xl font-bold">140+</p>
                     <p class="text-white/50 text-xs uppercase tracking-widest mt-1">Santri Aktif</p>
                 </div>
                 <div class="text-center px-4 py-2 border-t lg:border-t-0"
                     style="border-right: 1px solid rgba(255,255,255,0.1);">
-                    <p class="text-green-400 text-2xl font-bold">30+</p>
+                    <p class="text-green-400 text-2xl font-bold">50+</p>
                     <p class="text-white/50 text-xs uppercase tracking-widest mt-1">Tenaga Pendidik</p>
                 </div>
                 <div class="text-center px-4 py-2 border-t lg:border-t-0">
@@ -146,7 +146,7 @@
                 <div
                     class="flex-1 group relative bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-8 hover:bg-white/15 transition duration-300">
                     <div
-                        class="w-14 h-14 mb-6 rounded-xl bg-primary/20 border border-primary/40 flex items-center justify-center">
+                        class="w-14 h-14 mb-6 rounded-xl bg-green-400/20 border border-green-400/40 flex items-center justify-center">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                             stroke="currentColor" class="w-7 h-7 text-green-300">
                             <path stroke-linecap="round" stroke-linejoin="round"
@@ -180,61 +180,211 @@
         </div>
     </section>
 
-    <section id="berita" class="pt-36 pb-32">
-        <div class="container relative">
-            <div class="max-w-xl text-center mx-auto -mt-5 mb-16">
-                <h4 class="text-sm font-medium border border-black max-w-24 mx-auto rounded-full mb-4 lg:text-base">Berita
-                </h4>
-                <h2 class="text-xl text-primary font-bold font-sans lg:text-2xl mb-5">Berbagai Informasi Menarik seputar
-                    Pendidikan, Inovasi, dan
-                    Perkembangan Terbaru di Sekolah Kami.</h2>
+    <section id="berita" class="pt-36 pb-32 relative overflow-hidden">
+
+        {{-- Background dekoratif --}}
+        <div class="absolute inset-0 -z-10">
+            <div class="absolute top-0 right-0 w-[600px] h-[600px] rounded-full opacity-[0.04]"
+                style="background: radial-gradient(circle, var(--color-primary, #16a34a) 0%, transparent 70%); transform: translate(30%, -30%)">
             </div>
-            <div class="flex flex-wrap mx-auto px-6">
-                <div
-                    class="rounded-lg shadow-xl overflow-hidden relative sm:w-64 mx-auto lg:w-72 mb-16 hover:scale-110 transition duration-300">
-                    <img src="../img/guruku.jpg" alt="image" class="w-full">
-                    <div class="px-4 py-3">
-                        <a href="#" class="font-bold text-xl text-primary font-sans">Berita terpopuler</a>
-                        <p class="text-xs text-slate-600 mt-2 mb-10">Lorem ipsum dolor sit amet consectetur adipisicing
-                            elit. Temporibus perferendis libero, sed mollitia quisquam exercitationem inventore eaque.
-                            Dolorem, laborum nemo?</p>
-                        <a href="#"
-                            class="text-sm px-3 py-2 bottom-2 absolute right-2 hover:skew-x-6 transition">Baca
-                            Selengkapnya</a>
+            <div class="absolute bottom-0 left-0 w-[400px] h-[400px] rounded-full opacity-[0.04]"
+                style="background: radial-gradient(circle, var(--color-primary, #16a34a) 0%, transparent 70%); transform: translate(-30%, 30%)">
+            </div>
+        </div>
+
+        <div class="container">
+
+            {{-- Header --}}
+            <div class="max-w-2xl text-center mx-auto mb-16">
+                <span
+                    class="inline-flex items-center gap-2 text-xs font-semibold tracking-widest uppercase text-primary border border-primary/30 bg-primary/5 px-4 py-1.5 rounded-full mb-5">
+                    <span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
+                    Berita Terkini
+                </span>
+                <h2 class="text-2xl lg:text-4xl font-bold text-gray-800 leading-snug mb-4">
+                    Berbagai Informasi Menarik<br>
+                    <span class="text-primary">Seputar Sekolah Kami</span>
+                </h2>
+                <p class="text-sm text-gray-500 leading-relaxed">
+                    Pendidikan, Inovasi, dan Perkembangan Terbaru — langsung dari sumber terpercaya.
+                </p>
+            </div>
+
+            @if ($beritas->isNotEmpty())
+                {{-- Featured + Grid --}}
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-12">
+
+                    {{-- Card Featured (berita pertama) --}}
+                    @php $featured = $beritas->first(); @endphp
+                    <div class="lg:col-span-6">
+                        <a href="{{ route('page.berita-show', $featured->slug) }}"
+                            class="group block rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 bg-white h-full">
+                            <div class="relative overflow-hidden aspect-[16/10]">
+                                @if ($featured->gambar_utama)
+                                    <img src="{{ asset('storage/' . $featured->gambar_utama) }}"
+                                        alt="{{ $featured->judul }}"
+                                        class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                                @else
+                                    <div
+                                        class="w-full h-full bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center">
+                                        <svg class="w-16 h-16 text-primary/30" fill="none" viewBox="0 0 24 24"
+                                            stroke-width="1" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
+                                        </svg>
+                                    </div>
+                                @endif
+
+                                {{-- Overlay gradient --}}
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent">
+                                </div>
+
+                                {{-- Badge kategori --}}
+                                @if ($featured->kategori)
+                                    <span
+                                        class="absolute top-4 left-4 bg-primary text-white text-xs font-bold px-3 py-1 rounded-full">
+                                        {{ $featured->kategori->nama }}
+                                    </span>
+                                @endif
+                                @if ($featured->is_featured)
+                                    <span
+                                        class="absolute top-4 right-4 bg-amber-400 text-white text-xs font-bold px-3 py-1 rounded-full flex items-center gap-1">
+                                        <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 24 24">
+                                            <path
+                                                d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z" />
+                                        </svg>
+                                        Unggulan
+                                    </span>
+                                @endif
+
+                                {{-- Tanggal di sudut bawah gambar --}}
+                                <div class="absolute bottom-4 left-4 text-white">
+                                    <p class="text-xs opacity-80">
+                                        {{ optional($featured->published_at)->format('d M Y') ?? $featured->created_at->format('d M Y') }}
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="p-6">
+                                <h3
+                                    class="text-lg font-bold text-gray-800 leading-snug mb-3 group-hover:text-primary transition-colors line-clamp-2">
+                                    {{ $featured->judul }}
+                                </h3>
+                                <p class="text-sm text-gray-500 leading-relaxed line-clamp-3 mb-4">
+                                    {{ $featured->ringkasan ?? Str::limit(strip_tags($featured->isi), 120) }}
+                                </p>
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center gap-2">
+                                        <div class="w-7 h-7 rounded-full bg-primary/10 flex items-center justify-center">
+                                            <svg class="w-3.5 h-3.5 text-primary" fill="none" viewBox="0 0 24 24"
+                                                stroke-width="1.5" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                    d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+                                            </svg>
+                                        </div>
+                                        <span class="text-xs text-gray-400">{{ $featured->user->name ?? 'Admin' }}</span>
+                                    </div>
+                                    <span
+                                        class="text-xs font-semibold text-primary flex items-center gap-1 group-hover:gap-2 transition-all">
+                                        Baca Selengkapnya
+                                        <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke-width="2"
+                                            stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
+                                        </svg>
+                                    </span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    {{-- Grid 4 berita sisanya --}}
+                    <div class="lg:col-span-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        @foreach ($beritas->skip(1)->take(4) as $berita)
+                            <a href="{{ route('berita.show', $berita->slug) }}"
+                                class="group bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 flex flex-col">
+                                <div class="relative overflow-hidden aspect-video">
+                                    @if ($berita->gambar_utama)
+                                        <img src="{{ asset('storage/' . $berita->gambar_utama) }}"
+                                            alt="{{ $berita->judul }}"
+                                            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                                    @else
+                                        <div
+                                            class="w-full h-full bg-gradient-to-br from-gray-100 to-gray-50 flex items-center justify-center">
+                                            <svg class="w-8 h-8 text-gray-300" fill="none" viewBox="0 0 24 24"
+                                                stroke-width="1" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                    d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
+                                            </svg>
+                                        </div>
+                                    @endif
+                                    <div class="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
+                                    @if ($berita->kategori)
+                                        <span
+                                            class="absolute top-2 left-2 bg-white/90 text-primary text-xs font-bold px-2 py-0.5 rounded-full">
+                                            {{ $berita->kategori->nama }}
+                                        </span>
+                                    @endif
+                                    @if ($featured->is_featured)
+                                        <span
+                                            class="absolute top-4 right-4 bg-amber-400 text-white text-xs font-bold px-3 py-1 rounded-full flex items-center gap-1">
+                                            <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 24 24">
+                                                <path
+                                                    d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z" />
+                                            </svg>
+                                            Unggulan
+                                        </span>
+                                    @endif
+                                </div>
+                                <div class="p-4 flex flex-col flex-1">
+                                    <h4
+                                        class="text-sm font-bold text-gray-800 leading-snug line-clamp-2 mb-2 group-hover:text-primary transition-colors flex-1">
+                                        {{ $berita->judul }}
+                                    </h4>
+                                    <div class="flex items-center justify-between mt-2">
+                                        <p class="text-xs text-gray-400">
+                                            {{ optional($berita->published_at)->format('d M Y') ?? $berita->created_at->format('d M Y') }}
+                                        </p>
+                                        <span
+                                            class="text-xs text-primary font-semibold flex items-center gap-0.5 group-hover:gap-1.5 transition-all">
+                                            Baca
+                                            <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke-width="2"
+                                                stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                    d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
+                                            </svg>
+                                        </span>
+                                    </div>
+                                </div>
+                            </a>
+                        @endforeach
                     </div>
                 </div>
-                <div
-                    class="rounded-lg shadow-xl overflow-hidden relative sm:w-64 mx-auto lg:w-72 mb-16 hover:scale-110 transition duration-300">
-                    <img src="../img/guruku.jpg" alt="image" class="w-full">
-                    <div class="px-4 py-3">
-                        <a href="#" class="font-bold text-xl text-primary font-sans">Berita terpopuler</a>
-                        <p class="text-xs text-slate-600 mt-2 mb-10">Lorem ipsum dolor sit amet consectetur adipisicing
-                            elit. Temporibus perferendis libero, sed mollitia quisquam exercitationem inventore eaque.
-                            Dolorem, laborum nemo?</p>
-                        <a href="#"
-                            class="text-sm px-3 py-2 bottom-2 absolute right-2 hover:skew-x-6 transition">Baca
-                            Selengkapnya</a>
+            @else
+                {{-- State Kosong --}}
+                <div class="text-center py-20">
+                    <div class="w-20 h-20 bg-gray-50 rounded-3xl flex items-center justify-center mx-auto mb-4">
+                        <svg class="w-10 h-10 text-gray-200" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M12 7.5h1.5m-1.5 3h1.5m-7.5 3h7.5m-7.5 3h7.5M6 7.5h3v3H6v-3Z" />
+                        </svg>
                     </div>
+                    <p class="text-gray-400 font-medium">Belum ada berita yang dipublikasikan.</p>
                 </div>
-                <div
-                    class="rounded-lg shadow-xl overflow-hidden relative sm:w-64 mx-auto lg:w-72 mb-16 hover:scale-110 transition duration-300">
-                    <img src="../img/guruku.jpg" alt="image" class="w-full">
-                    <div class="px-4 py-3">
-                        <a href="#" class="font-bold text-xl text-primary font-sans">Berita terpopuler</a>
-                        <p class="text-xs text-slate-600 mt-2 mb-10">Lorem ipsum dolor sit amet consectetur adipisicing
-                            elit. Temporibus perferendis libero, sed mollitia quisquam exercitationem inventore eaque.
-                            Dolorem, laborum nemo?</p>
-                        <a href="#"
-                            class="text-sm px-3 py-2 bottom-2 absolute right-2 hover:skew-x-6 transition">Baca
-                            Selengkapnya</a>
-                    </div>
-                </div>
+            @endif
+
+            {{-- Tombol Lihat Semua --}}
+            <div class="text-center">
+                <a href="{{ route('page.berita-index') }}"
+                    class="inline-flex items-center gap-2 bg-primary text-white font-semibold text-sm px-7 py-3 rounded-full hover:bg-primary/90 hover:gap-3 transition-all duration-300 shadow-lg shadow-primary/20">
+                    Lihat Semua Berita
+                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
+                    </svg>
+                </a>
             </div>
-            <div class="max-w-full max-auto text-center">
-                <a href=""
-                    class="text-base font-semibold bg-primary px-3 py-2 rounded-full text-white hover:scale-105 hover:bg-slate-300 hover:text-primary transition duration-300 shadow-lg">Lihat
-                    Semuanya</a>
-            </div>
+
         </div>
     </section>
 
@@ -307,64 +457,146 @@
         </div>
     </section>
 
-    <section id="" class="pt-36 pb-32">
+    <section id="prestasi" class="py-28 bg-white relative overflow-hidden">
+
+        {{-- Decorative background --}}
+        <div class="absolute inset-0 pointer-events-none">
+            <div class="absolute top-0 left-0 w-72 h-72 bg-primary/5 rounded-full -translate-x-1/2 -translate-y-1/2"></div>
+            <div class="absolute bottom-0 right-0 w-96 h-96 bg-yellow-400/5 rounded-full translate-x-1/3 translate-y-1/3">
+            </div>
+            <div
+                class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-px bg-gradient-to-r from-transparent via-gray-100 to-transparent">
+            </div>
+        </div>
+
         <div class="container relative">
-            <div class="max-w-xl text-center mx-auto -mt-5 mb-16">
-                <h4 class="text-sm font-medium border border-black max-w-24 mx-auto rounded-full mb-4 lg:text-base">
-                    Prestasi
-                </h4>
-                <h2 class="text-xl text-primary font-bold font-sans lg:text-2xl mb-5">Menyinari Bakat dan Prestasi Siswa
-                    Kami, Melihat Karya
-                    Hebat yang Mencerminkan Potensi Terbesar Generasi Masa Depan.</h2>
+
+            {{-- Header --}}
+            <div class="max-w-2xl mx-auto text-center mb-16">
+                <span
+                    class="inline-flex items-center gap-2 text-xs font-bold tracking-[0.2em] uppercase text-primary bg-primary/10 px-4 py-2 rounded-full mb-5">
+                    <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24">
+                        <path
+                            d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.562.562 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.562.562 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5Z" />
+                    </svg>
+                    Prestasi Siswa
+                </span>
+                <h2 class="text-3xl lg:text-4xl font-extrabold text-gray-900 leading-tight mb-4">
+                    Bakat yang <span class="text-primary">Bersinar</span>,<br>Prestasi yang Menginspirasi
+                </h2>
+                <p class="text-gray-500 text-base">Karya dan pencapaian luar biasa dari generasi terbaik kami di berbagai
+                    bidang kompetisi.</p>
             </div>
-            <div class="flex flex-wrap mx-auto px-6">
-                <div
-                    class="rounded-lg shadow-xl overflow-hidden relative sm:w-64 mx-auto lg:w-72 mb-16 hover:scale-110 transition duration-300">
-                    <img src="../img/guruku.jpg" alt="image" class="w-full">
-                    <div class="px-4 py-3">
-                        <a href="#" class="font-bold text-xl text-primary font-sans">Berita terpopuler</a>
-                        <p class="text-xs text-slate-600 mt-2 mb-10">Lorem ipsum dolor sit amet consectetur adipisicing
-                            elit. Temporibus perferendis libero, sed mollitia quisquam exercitationem inventore eaque.
-                            Dolorem, laborum nemo?</p>
-                        <a href="#"
-                            class="text-sm px-3 py-2 bottom-2 absolute right-2 hover:skew-x-6 transition">Baca
-                            Selengkapnya</a>
-                    </div>
-                </div>
-                <div
-                    class="rounded-lg shadow-xl overflow-hidden relative sm:w-64 mx-auto lg:w-72 mb-16 hover:scale-110 transition duration-300">
-                    <img src="../img/guruku.jpg" alt="image" class="w-full">
-                    <div class="px-4 py-3">
-                        <a href="#" class="font-bold text-xl text-primary font-sans">Berita terpopuler</a>
-                        <p class="text-xs text-slate-600 mt-2 mb-10">Lorem ipsum dolor sit amet consectetur adipisicing
-                            elit. Temporibus perferendis libero, sed mollitia quisquam exercitationem inventore eaque.
-                            Dolorem, laborum nemo?</p>
-                        <a href="#"
-                            class="text-sm px-3 py-2 bottom-2 absolute right-2 hover:skew-x-6 transition">Baca
-                            Selengkapnya</a>
-                    </div>
-                </div>
-                <div
-                    class="rounded-lg shadow-xl overflow-hidden relative sm:w-64 mx-auto lg:w-72 mb-16 hover:scale-110 transition duration-300">
-                    <img src="../img/guruku.jpg" alt="image" class="w-full">
-                    <div class="px-4 py-3">
-                        <a href="#" class="font-bold text-xl text-primary font-sans">Berita terpopuler</a>
-                        <p class="text-xs text-slate-600 mt-2 mb-10">Lorem ipsum dolor sit amet consectetur adipisicing
-                            elit. Temporibus perferendis libero, sed mollitia quisquam exercitationem inventore eaque.
-                            Dolorem, laborum nemo?</p>
-                        <a href="#"
-                            class="text-sm px-3 py-2 bottom-2 absolute right-2 hover:skew-x-6 transition">Baca
-                            Selengkapnya</a>
-                    </div>
-                </div>
+
+            {{-- Grid Prestasi --}}
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-12">
+                @foreach ($prestasis as $item)
+                    <a href="{{ route('page.prestasi-show', $item->slug) }}"
+                        class="group relative bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300">
+
+                        {{-- Badge Tingkat --}}
+                        <div class="absolute top-3 left-3 z-10">
+                            @php
+                                $tingkatColor = match ($item->tingkat) {
+                                    'internasional' => 'bg-purple-600',
+                                    'nasional' => 'bg-blue-600',
+                                    'provinsi' => 'bg-cyan-600',
+                                    'kabupaten' => 'bg-emerald-600',
+                                    default => 'bg-gray-600',
+                                };
+                                $tingkatLabel = match ($item->tingkat) {
+                                    'internasional' => 'Internasional',
+                                    'nasional' => 'Nasional',
+                                    'provinsi' => 'Provinsi',
+                                    'kabupaten' => 'Kab/Kota',
+                                    default => ucfirst($item->tingkat),
+                                };
+                            @endphp
+                            <span
+                                class="text-[10px] font-bold uppercase tracking-wider text-white {{ $tingkatColor }} px-2.5 py-1 rounded-full shadow-sm">
+                                {{ $tingkatLabel }}
+                            </span>
+                        </div>
+
+                        {{-- Foto --}}
+                        <div class="relative h-44 bg-gradient-to-br from-primary/10 to-primary/5 overflow-hidden">
+                            @if ($item->foto)
+                                <img src="{{ asset('storage/' . $item->foto) }}" alt="{{ $item->judul }}"
+                                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            @else
+                                <div class="w-full h-full flex items-center justify-center">
+                                    <svg class="w-16 h-16 text-primary/20" fill="currentColor" viewBox="0 0 24 24">
+                                        <path
+                                            d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.562.562 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.562.562 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5Z" />
+                                    </svg>
+                                </div>
+                            @endif
+                            {{-- Overlay gradient --}}
+                            <div
+                                class="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            </div>
+                        </div>
+
+                        {{-- Juara Badge --}}
+                        <div class="absolute top-36 right-3 z-10">
+                            @php
+                                $juaraLabel = match ($item->juara) {
+                                    'Juara 1' => 'Juara 1',
+                                    'Juara 2' => 'Juara 2',
+                                    'Juara 3' => 'Juara 3',
+                                    'Harapan 1' => 'Harapan 1',
+                                    'Harapan 2' => 'Harapan 2',
+                                    'Harapan 3' => 'Harapan 3',
+                                    'Finalis' => 'Finalis',
+                                    'Peserta Terbaik' => 'Peserta Terbaik',
+                                    default => '🏆 ' . ucfirst($item->juara),
+                                };
+                            @endphp
+                            <span class="text-[10px] font-bold text-white bg-yellow-500 px-2.5 py-1 rounded-full shadow">
+                                {{ $juaraLabel }}
+                            </span>
+                        </div>
+
+                        {{-- Content --}}
+                        <div class="p-4">
+                            <h3
+                                class="font-bold text-gray-900 text-sm leading-snug line-clamp-2 mb-2 group-hover:text-primary transition-colors">
+                                {{ $item->judul }}
+                            </h3>
+                            <p class="text-xs text-gray-500 line-clamp-1 mb-3">{{ $item->nama_lomba }}</p>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center gap-1.5">
+                                    <div class="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center">
+                                        <svg class="w-3.5 h-3.5 text-primary" fill="none" viewBox="0 0 24 24"
+                                            stroke-width="2" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0" />
+                                        </svg>
+                                    </div>
+                                    <span
+                                        class="text-xs text-gray-600 font-medium truncate max-w-[100px]">{{ $item->nama_peserta }}</span>
+                                </div>
+                                <span
+                                    class="text-[10px] text-gray-400">{{ \Carbon\Carbon::parse($item->tanggal)->format('Y') }}</span>
+                            </div>
+                        </div>
+                    </a>
+                @endforeach
             </div>
-            <div class="max-w-full max-auto text-center">
-                <a href=""
-                    class="text-base font-semibold bg-primary px-3 py-2 rounded-full text-white hover:scale-105 hover:bg-slate-300 hover:text-primary transition duration-300 shadow-lg">Lihat
-                    Semuanya</a>
+
+            {{-- CTA --}}
+            <div class="text-center">
+                <a href="{{ route('page.prestasi-index') }}"
+                    class="inline-flex items-center gap-2 bg-primary text-white font-semibold text-sm px-7 py-3 rounded-full hover:bg-primary/90 hover:shadow-lg hover:shadow-primary/20 hover:-translate-y-0.5 transition-all duration-300">
+                    Lihat Semua Prestasi
+                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
+                    </svg>
+                </a>
             </div>
+
         </div>
     </section>
 
-<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
 @endsection

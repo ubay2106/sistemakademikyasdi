@@ -31,10 +31,21 @@
 
                 <div class="flex items-center gap-3 px-4">
 
-                    <a href=""
-                        class="lg:hidden flex items-center gap-1.5 font-semibold text-sm text-primary bg-white border-2 border-white py-1.5 px-4 rounded-xl hover:text-black hover:bg-transparent hover:border-white transition duration-300">
-                        Login
-                    </a>
+                    @guest
+                        <a href="{{ route('login') }}"
+                            class="lg:hidden flex items-center gap-1.5 font-semibold text-sm text-primary bg-white border-2 border-white py-1.5 px-4 rounded-xl hover:text-black hover:bg-transparent hover:border-white transition duration-300">
+                            Login
+                        </a>
+                    @endguest
+                    @auth
+                        <a href="
+                            @if (auth()->user()->role === 'admin') {{ route('admin.dashboard') }}
+                            @elseif(auth()->user()->role === 'guru') {{ route('guru.dashboard') }}
+                            @else @endif "
+                            class="lg:hidden flex items-center gap-1.5 font-semibold text-sm text-primary bg-white border-2 border-white py-1.5 px-4 rounded-xl hover:text-black hover:bg-transparent hover:border-white transition duration-300">
+                            Dashboard
+                        </a>
+                    @endauth
 
                     <button id="bars" name="bars" type="button" class="block lg:hidden">
                         <span class="bars-line origin-top-left transition duration-300 ease-in-out"></span>
@@ -46,7 +57,7 @@
                         class="hidden absolute py-5 bg-primary shadow-lg rounded-lg max-w-[200px] w-full right-4 top-full lg:flex lg:items-center lg:static lg:bg-transparent lg:max-w-full lg:shadow-none lg:rounded-none lg:py-0">
                         <ul class="block lg:flex lg:items-center">
                             <li class="group">
-                                <a href="#"
+                                <a href="/"
                                     class="font-semibold text-white py-2 mx-8 flex group-hover:text-black lg:mx-4">Beranda</a>
                             </li>
 
@@ -65,21 +76,21 @@
                                 <ul id="dropdown-pendidikan"
                                     class="hidden lg:group-hover:block lg:absolute lg:top-full lg:left-0 lg:bg-primary lg:shadow-xl lg:rounded-xl lg:min-w-[200px] lg:py-2 ml-4 lg:ml-0">
                                     <li>
-                                        <a href="#"
+                                        <a href="{{ route('pendidikan.ra') }}"
                                             class="flex items-center gap-2 text-white font-medium text-sm py-2 px-5 hover:text-black transition duration-200">
                                             <span class="w-1.5 h-1.5 rounded-full bg-white flex-shrink-0"></span>
                                             RA Darussalam
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="#"
+                                        <a href="{{ route('pendidikan.mi') }}"
                                             class="flex items-center gap-2 text-white font-medium text-sm py-2 px-5 hover:text-black transition duration-200">
                                             <span class="w-1.5 h-1.5 rounded-full bg-white flex-shrink-0"></span>
                                             MI Darussalam
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="#"
+                                        <a href="{{ route('pendidikan.mts') }}"
                                             class="flex items-center gap-2 text-white font-medium text-sm py-2 px-5 hover:text-black transition duration-200">
                                             <span class="w-1.5 h-1.5 rounded-full bg-white flex-shrink-0"></span>
                                             MTs Darussalam
@@ -89,7 +100,7 @@
                             </li>
 
                             <li class="group">
-                                <a href="#portfolio"
+                                <a href="{{ route('page.berita-index') }}"
                                     class="font-semibold text-white py-2 mx-8 flex group-hover:text-black lg:mx-4">Berita</a>
                             </li>
                             <li class="group">
@@ -102,10 +113,21 @@
                             </li>
 
                             <li class="hidden lg:block lg:ml-4">
-                                <a href=""
-                                    class="flex items-center gap-1.5 font-semibold text-sm text-primary bg-white border-2 border-white py-1.5 px-4 rounded-xl hover:text-black hover:bg-transparent hover:border-white transition duration-300">
-                                    Login
-                                </a>
+                                @guest
+                                    <a href="{{ route('login') }}"
+                                        class="flex items-center gap-1.5 font-semibold text-sm text-primary bg-white border-2 border-white py-1.5 px-4 rounded-xl hover:text-black hover:bg-transparent hover:border-white transition duration-300">
+                                        Login
+                                    </a>
+                                @endguest
+                                @auth
+                                    <a href="
+                            @if (auth()->user()->role === 'admin') {{ route('admin.dashboard') }}
+                            @elseif(auth()->user()->role === 'guru') {{ route('guru.dashboard') }}
+                            @else @endif "
+                                        class="flex items-center gap-1.5 font-semibold text-sm text-primary bg-white border-2 border-white py-1.5 px-4 rounded-xl hover:text-black hover:bg-transparent hover:border-white transition duration-300">
+                                        Dashboard
+                                    </a>
+                                @endauth
                             </li>
                         </ul>
                     </nav>
@@ -252,7 +274,8 @@
                 </div>
             </div>
             <div class="max-w-full mx-auto border-t border-slate-500">
-                <p class="sm:text-base text-sm text-white text-center py-2 font-sans">©2026 Yayasan Darul Istiqlal. All rights reserved.</p>
+                <p class="sm:text-base text-sm text-white text-center py-2 font-sans">©2026 Yayasan Darul Istiqlal. All
+                    rights reserved.</p>
             </div>
         </div>
     </footer>

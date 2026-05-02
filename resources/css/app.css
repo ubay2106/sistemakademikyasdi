@@ -67,3 +67,47 @@ body {
         .delay-2 { animation-delay: 0.10s; opacity: 0; }
         .delay-3 { animation-delay: 0.15s; opacity: 0; }
         .delay-4 { animation-delay: 0.20s; opacity: 0; }
+
+@keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-8px); }
+        }
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes pulse-ring {
+            0% { transform: scale(0.95); opacity: 0.6; }
+            50% { transform: scale(1.05); opacity: 0.3; }
+            100% { transform: scale(0.95); opacity: 0.6; }
+        }
+        .animate-float { animation: float 4s ease-in-out infinite; }
+        .animate-fade-up { animation: fadeUp 0.6s ease forwards; }
+        .animate-fade-up-delay { animation: fadeUp 0.6s ease 0.15s forwards; opacity: 0; }
+        .animate-fade-up-delay2 { animation: fadeUp 0.6s ease 0.3s forwards; opacity: 0; }
+        .pulse-ring { animation: pulse-ring 2.5s ease-in-out infinite; }
+
+        .input-field {
+            transition: border-color 0.2s, box-shadow 0.2s, background-color 0.2s;
+        }
+        .input-field:focus {
+            outline: none;
+            border-color: #16a34a;
+            background-color: #ffffff;
+            box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.12);
+        }
+        .btn-login {
+            transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.2s;
+        }
+        .btn-login:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 8px 24px rgba(22, 163, 74, 0.35);
+        }
+        .btn-login:active {
+            transform: translateY(0);
+        }
+
+        .dot-grid {
+            background-image: radial-gradient(circle, rgba(255,255,255,0.08) 1px, transparent 1px);
+            background-size: 28px 28px;
+        }
