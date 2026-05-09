@@ -266,6 +266,19 @@
                         <span class="font-medium text-sm">Galeri</span>
                     </a>
 
+                    <p class="text-white/30 text-[10px] uppercase tracking-widest font-semibold px-4 pt-3 pb-2">Akun</p>
+
+                    {{-- Profil --}}
+                    <a href="{{ route('admin.account.index') }}"
+                        class="flex items-center gap-3 px-4 py-3 rounded-lg text-white/70 hover:text-white transition duration-200 {{ request()->routeIs('guru.profil') ? 'active text-white' : '' }}">
+                        <div class="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center flex-shrink-0">
+                            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+                            </svg>
+                        </div>
+                        <span class="font-medium text-sm">Account</span>
+                    </a>
+
                 @endif
                 {{-- END role check --}}
 

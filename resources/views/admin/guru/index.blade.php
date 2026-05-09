@@ -218,7 +218,7 @@
                             {{-- Akun Login --}}
                             <td class="px-4 py-4 hidden lg:table-cell">
                                 @if ($guru->user)
-                                    <p class="text-sm font-mono text-gray-700 font-medium">{{ $guru->user->username }}</p>
+                                    <p class="text-sm font-mono text-gray-700 font-medium">{{ $guru->user->username ?? 'Belum ada akun' }}</p>
                                     <p class="text-xs text-gray-400 mt-0.5">Role: {{ ucfirst($guru->user->role) }}</p>
                                 @else
                                     <span class="text-xs text-red-400 italic">Tidak ada akun</span>

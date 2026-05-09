@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AccountController;
 use App\Http\Controllers\GuruController;
 use App\Http\Controllers\PrestasiController;
 use App\Http\Controllers\AuthController;
@@ -8,7 +9,7 @@ use App\Http\Controllers\BeritaKategoriController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\GaleriController;
 use App\Http\Controllers\Guru\DashboardController as GuruDashboardController;
-use App\Http\Controllers\Guru\NilaiController as GuruNilaiController; 
+use App\Http\Controllers\Guru\NilaiController as GuruNilaiController;
 use App\Http\Controllers\Guru\ProfileController as GuruProfileController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\KelasController;
@@ -63,59 +64,66 @@ Route::post('/logout', [AuthController::class, 'logout'])
     ->middleware('auth')
     ->name('logout');
 
-    
-    
-Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
+Route::middleware('auth')
+    ->prefix('admin')
+    ->name('admin.')
+    ->group(function () {
+        Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-    Route::get('/dashboard', [DashboardController::class, 'index'])
-    ->name('dashboard');
+        Route::resource('berita', BeritaController::class);
+        Route::resource('kategori', BeritaKategoriController::class);
+        Route::patch('kategori/{kategori}/toggle', [BeritaKategoriController::class, 'toggle'])->name('kategori.toggle');
 
-    Route::resource('berita', BeritaController::class);
-    Route::resource('kategori', BeritaKategoriController::class);
-    Route::patch('kategori/{kategori}/toggle', [BeritaKategoriController::class, 'toggle'])->name('kategori.toggle');
+        Route::resource('prestasi', PrestasiController::class);
 
-    Route::resource('prestasi', PrestasiController::class);
+        Route::resource('guru', GuruController::class);
+        Route::resource('siswa', SiswaController::class);
+        Route::resource('kelas', KelasController::class)->parameters(['kelas' => 'kelas']);
+        Route::resource('matapelajaran', MataPelajaranController::class);
 
-    Route::resource('guru', GuruController::class);
-    Route::resource('siswa', SiswaController::class);
-    Route::resource('kelas', KelasController::class)->parameters(['kelas' => 'kelas']);
-    Route::resource('matapelajaran', MataPelajaranController::class);
+        Route::resource('tahunajaran', TahunAjaranController::class);
+        Route::resource('semester', SemesterController::class);
+        Route::resource('pengajar', PengajarController::class);
 
-    Route::resource('tahunajaran', TahunAjaranController::class);
-    Route::resource('semester', SemesterController::class);
-    Route::resource('pengajar', PengajarController::class);
+        Route::get('/siswakelas/kenaikan', [SiswaKelasController::class, 'kenaikan'])->name('siswakelas.kenaikan');
+        Route::post('/siswakelas/proses-kenaikan', [SiswaKelasController::class, 'prosesKenaikan'])->name('siswakelas.prosesKenaikan');
+        Route::resource('siswakelas', SiswaKelasController::class)->except(['show']);
 
-    Route::get('/siswakelas/kenaikan', [SiswaKelasController::class, 'kenaikan'])->name('siswakelas.kenaikan');
-    Route::post('/siswakelas/proses-kenaikan', [SiswaKelasController::class, 'prosesKenaikan'])->name('siswakelas.prosesKenaikan');
-    Route::resource('siswakelas', SiswaKelasController::class)->except(['show']);
+        Route::resource('nilai', NilaiController::class);
 
-    Route::resource('nilai', NilaiController::class);
+        Route::resource('galeri', GaleriController::class);
 
-    Route::resource('galeri', GaleriController::class);
-});
+        Route::get('/account', [AccountController::class, 'index'])
+            ->name('account.index');
 
-Route::middleware('auth')->prefix('guru')->name('guru.')->group(function () {
+        Route::post('/account/update-password', [AccountController::class, 'updatePassword'])
+            ->name('account.update-password');
 
-    Route::get('/dashboard', [GuruDashboardController::class, 'index'])->name('dashboard');
+        Route::post('/account/reset-password-guru/{guru}', [AccountController::class, 'resetPasswordGuru'])
+            ->name('account.reset-password-guru');
+    });
 
-    Route::get('/nilai', [GuruNilaiController::class, 'index'])->name('nilai.index');
+Route::middleware('auth')
+    ->prefix('guru')
+    ->name('guru.')
+    ->group(function () {
+        Route::get('/dashboard', [GuruDashboardController::class, 'index'])->name('dashboard');
 
-    Route::get('/nilai/{pengajar}/input', [GuruNilaiController::class, 'input'])->name('nilai.input');
-    Route::post('/nilai/{pengajar}/simpan', [GuruNilaiController::class, 'simpan'])->name('nilai.simpan');
+        Route::get('/nilai', [GuruNilaiController::class, 'index'])->name('nilai.index');
 
-    Route::get('/rekap-nilai', [GuruNilaiController::class, 'rekap'])->name('nilai.rekap');
-    Route::get('/rekap-nilai/{pengajar}', [GuruNilaiController::class, 'lihat'])->name('nilai.lihat');
+        Route::get('/nilai/{pengajar}/input', [GuruNilaiController::class, 'input'])->name('nilai.input');
+        Route::post('/nilai/{pengajar}/simpan', [GuruNilaiController::class, 'simpan'])->name('nilai.simpan');
 
-    Route::get('/nilai/edit/{nilai}', [GuruNilaiController::class, 'edit'])->name('nilai.edit');
-    Route::put('/nilai/update/{nilai}', [GuruNilaiController::class, 'update'])->name('nilai.update');
-    Route::delete('/nilai/delete/{nilai}', [GuruNilaiController::class, 'destroy'])->name('nilai.destroy');
+        Route::get('/rekap-nilai', [GuruNilaiController::class, 'rekap'])->name('nilai.rekap');
+        Route::get('/rekap-nilai/{pengajar}', [GuruNilaiController::class, 'lihat'])->name('nilai.lihat');
 
-    Route::get('/profile', [GuruProfileController::class, 'edit'])
-    ->name('profile.edit');
+        Route::get('/nilai/edit/{nilai}', [GuruNilaiController::class, 'edit'])->name('nilai.edit');
+        Route::put('/nilai/update/{nilai}', [GuruNilaiController::class, 'update'])->name('nilai.update');
+        Route::delete('/nilai/delete/{nilai}', [GuruNilaiController::class, 'destroy'])->name('nilai.destroy');
 
-Route::put('/profile/identitas', [GuruProfileController::class, 'updateIdentitas'])
-    ->name('profile.updateIdentitas');
+        Route::get('/profile', [GuruProfileController::class, 'edit'])->name('profile.edit');
 
-Route::put('/profile/password', [GuruProfileController::class, 'updatePassword'])
-    ->name('profile.updatePassword');
-});
+        Route::put('/profile/identitas', [GuruProfileController::class, 'updateIdentitas'])->name('profile.updateIdentitas');
+
+        Route::put('/profile/password', [GuruProfileController::class, 'updatePassword'])->name('profile.updatePassword');
+    });

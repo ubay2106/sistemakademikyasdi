@@ -192,7 +192,7 @@
                     </div>
                     <h3 class="text-lg font-bold text-gray-700 mb-2">Belum Ada Foto</h3>
                     <p class="text-sm text-gray-400">Foto galeri belum tersedia saat ini. Silakan cek kembali nanti.</p>
-                    <a href="{{ route('page.home') }}"
+                    <a href="/"
                         class="mt-8 inline-flex items-center gap-2 bg-primary text-white font-semibold text-sm px-6 py-3 rounded-full hover:bg-primary/90 transition-all duration-300">
                         Kembali ke Beranda
                         <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
