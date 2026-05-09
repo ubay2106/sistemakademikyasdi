@@ -1,10 +1,10 @@
-@extends('admin.layout.app')
+@extends('layout.app')
 
 @section('content')
 
 {{-- Header --}}
 <div class="flex items-center gap-3 mb-6">
-    <a href="{{ route('kategori.index') }}"
+    <a href="{{ route('admin.kategori.index') }}"
         class="w-9 h-9 rounded-xl bg-white border border-gray-200 flex items-center justify-center text-gray-400 hover:text-gray-700 hover:border-gray-300 transition">
         <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
@@ -38,7 +38,7 @@
 @endif
 
 <div class="max-w-xl">
-    <form method="POST" action="{{ route('kategori.update', $kategori) }}">
+    <form method="POST" action="{{ route('admin.kategori.update', $kategori) }}">
         @csrf @method('PUT')
 
         <div class="bg-white rounded-2xl border border-gray-100 p-6 space-y-5">
@@ -109,7 +109,7 @@
                 </svg>
                 Simpan Perubahan
             </button>
-            <a href="{{ route('kategori.index') }}"
+            <a href="{{ route('admin.kategori.index') }}"
                 class="w-full flex items-center justify-center gap-2 bg-white border border-gray-200 text-gray-600 font-semibold text-sm py-3 px-5 rounded-xl hover:bg-gray-50 transition duration-200">
                 Batal
             </a>

@@ -35,5 +35,10 @@ class Pengajar extends Model
         return $this->belongsTo(TahunAjaran::class);
     }
 
+    public function nilais()
+{
+    return $this->hasMany(Nilai::class);
+}
+
     use HasFactory;
 }

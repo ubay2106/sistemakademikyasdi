@@ -1,4 +1,4 @@
-@extends('admin.layout.app')
+@extends('layout.app')
 
 @section('content')
 
@@ -32,7 +32,7 @@
 
 {{-- Header --}}
 <div class="flex items-center gap-3 mb-6">
-    <a href="{{ route('berita.index') }}"
+    <a href="{{ route('admin.berita.index') }}"
         class="w-9 h-9 rounded-xl bg-white border border-gray-200 flex items-center justify-center text-gray-400 hover:text-gray-700 hover:border-gray-300 transition">
         <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
@@ -64,7 +64,7 @@
             </div>
             @endif
 
-            <form method="POST" action="{{ route('kategori.store') }}" class="space-y-4">
+            <form method="POST" action="{{ route('admin.kategori.store') }}" class="space-y-4">
                 @csrf
 
                 <div>
@@ -146,7 +146,7 @@
 
                             {{-- Status & Toggle --}}
                             <td class="px-4 py-4">
-                                <form method="POST" action="{{ route('kategori.toggle', $kategori) }}">
+                                <form method="POST" action="{{ route('admin.kategori.toggle', $kategori) }}">
                                     @csrf @method('PATCH')
                                     <button type="submit" title="Klik untuk ubah status"
                                         class="flex items-center gap-1.5 group/toggle">
@@ -168,14 +168,14 @@
                             {{-- Aksi --}}
                             <td class="px-6 py-4">
                                 <div class="flex items-center justify-end gap-2">
-                                    <a href="{{ route('kategori.edit', $kategori) }}"
+                                    <a href="{{ route('admin.kategori.edit', $kategori) }}"
                                         class="w-8 h-8 rounded-lg bg-blue-50 hover:bg-blue-100 flex items-center justify-center text-blue-500 transition"
                                         title="Edit">
                                         <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Z" />
                                         </svg>
                                     </a>
-                                    <form method="POST" action="{{ route('kategori.destroy', $kategori) }}"
+                                    <form method="POST" action="{{ route('admin.kategori.destroy', $kategori) }}"
                                         onsubmit="return confirm('Yakin ingin menghapus kategori \'{{ $kategori->nama }}\'?')">
                                         @csrf @method('DELETE')
                                         <button type="submit"

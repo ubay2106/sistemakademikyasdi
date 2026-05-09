@@ -33,7 +33,7 @@ class BeritaKategoriController extends Controller
         ]);
 
         return redirect()
-            ->route('kategori.index')
+            ->route('admin.kategori.index')
             ->with('success', 'Kategori berhasil ditambahkan.');
     }
 
@@ -56,7 +56,7 @@ class BeritaKategoriController extends Controller
         ]);
 
         return redirect()
-            ->route('kategori.index')
+            ->route('admin.kategori.index')
             ->with('success', 'Kategori berhasil diperbarui.');
     }
 
@@ -80,7 +80,7 @@ class BeritaKategoriController extends Controller
         $kategori->update(['is_active' => !$kategori->is_active]);
 
         return redirect()
-            ->route('kategori.index')
+            ->route('admin.kategori.index')
             ->with('success', 'Status kategori berhasil diubah.');
     }
 }

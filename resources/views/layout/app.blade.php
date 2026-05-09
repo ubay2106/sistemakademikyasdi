@@ -1,287 +1,382 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="id">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Yayasan Darul Istiqlal</title>
     <link rel="icon" type="image" href="{{ asset('img/logo.png') }}" />
     @vite('resources/css/app.css')
-    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
-
 </head>
 
-<body>
+<body class="bg-gray-100 min-h-screen">
 
-    {{-- header --}}
-    <header class="bg-transparent absolute top-0 left-0 w-full flex items-center z-10 transition duration-300">
-        <div class="container">
-            <div class="flex items-center justify-between relative">
+    <div id="overlay" class="overlay fixed inset-0 bg-black/50 z-20 hidden lg:hidden"></div>
 
-                <div class="px-4">
-                    <a href="#" class="flex items-center gap-2 py-4">
-                        <img src="{{ asset('/img/logo.png') }}" class="size-10 lg:size-12" alt="logo">
-                        <div class="flex flex-col">
-                            <span class=" text-base text-white font-medium tracking-wide lg:text-md">YAYASAN</span>
-                            <span class="text-md font-bold text-white lg:text-xl">DARUL ISTIQLAL</span>
+    <div class="flex min-h-screen">
+
+        <aside id="sidebar"
+            class="fixed top-0 left-0 h-full w-64 bg-gray-900 z-30 flex flex-col -translate-x-full lg:translate-x-0">
+            @if(auth()->user()->role === 'guru')
+                @php $guru = auth()->user()->guru; @endphp
+                <div class="flex flex-col items-center py-6 px-6 border-b border-white/10">
+                    <div class="relative mb-3">
+                        <div class="absolute inset-0 bg-green-400/20 rounded-full blur-md"></div>
+                        <img src="{{ asset('img/logo.png') }}" alt="Logo"
+                            class="relative size-14 rounded-full ring-2 ring-green-400/40 object-contain bg-white p-1">
+                    </div>
+                    <p class="text-white/50 text-xs font-medium tracking-widest uppercase">Yayasan</p>
+                    <h2 class="text-white font-bold text-sm text-center leading-tight">Darul Istiqlal</h2>
+                    <span class="mt-2 text-xs bg-blue-400/20 text-blue-400 px-3 py-0.5 rounded-full font-medium">
+                        Portal Guru
+                    </span>
+                </div>
+
+            @else
+                {{-- ── HEADER ADMIN ── --}}
+                <div class="flex flex-col items-center py-8 px-6 border-b border-white/10">
+                    <div class="relative mb-3">
+                        <div class="absolute inset-0 bg-green-400/20 rounded-full blur-md"></div>
+                        <img src="{{ asset('img/logo.png') }}" alt="Logo"
+                            class="relative size-14 rounded-full ring-2 ring-green-400/40 object-contain bg-white p-1">
+                    </div>
+                    <p class="text-white/50 text-xs font-medium tracking-widest uppercase">Yayasan</p>
+                    <h2 class="text-white font-bold text-base text-center leading-tight">Darul Istiqlal</h2>
+                    <span class="mt-2 text-xs bg-green-400/20 text-green-400 px-3 py-0.5 rounded-full font-medium">
+                        Admin Panel
+                    </span>
+                </div>
+            @endif
+            <nav class="flex-1 py-6 px-3 space-y-1 overflow-y-auto">
+
+                @if(auth()->user()->role === 'guru')
+
+                    <p class="text-white/30 text-[10px] uppercase tracking-widest font-semibold px-4 mb-3">Menu</p>
+
+                    {{-- Dashboard Guru --}}
+                    <a href="{{ route('guru.dashboard') }}"
+                        class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg text-white/70 hover:text-white transition duration-200 {{ request()->routeIs('guru.dashboard') ? 'active text-white' : '' }}">
+                        <div class="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center flex-shrink-0">
+                            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 0 1 6 3.75h2.25A2.25 2.25 0 0 1 10.5 6v2.25a2.25 2.25 0 0 1-2.25 2.25H6a2.25 2.25 0 0 1-2.25-2.25V6ZM3.75 15.75A2.25 2.25 0 0 1 6 13.5h2.25a2.25 2.25 0 0 1 2.25 2.25V18a2.25 2.25 0 0 1-2.25 2.25H6A2.25 2.25 0 0 1 3.75 18v-2.25ZM13.5 6a2.25 2.25 0 0 1 2.25-2.25H18A2.25 2.25 0 0 1 20.25 6v2.25A2.25 2.25 0 0 1 18 10.5h-2.25a2.25 2.25 0 0 1-2.25-2.25V6ZM13.5 15.75a2.25 2.25 0 0 1 2.25-2.25H18a2.25 2.25 0 0 1 2.25 2.25V18A2.25 2.25 0 0 1 18 20.25h-2.25A2.25 2.25 0 0 1 13.5 18v-2.25Z" />
+                            </svg>
                         </div>
+                        <span class="font-medium text-sm">Dashboard</span>
+                    </a>
+
+                    <p class="text-white/30 text-[10px] uppercase tracking-widest font-semibold px-4 pt-3 pb-2">Akademik</p>
+
+                    {{-- Input Nilai --}}
+                    <div x-data="{ open: {{ request()->routeIs('guru.nilai*') ? 'true' : 'false' }} }">
+                        <button @click="open = !open"
+                            class="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-white/70 hover:text-white transition duration-200 {{ request()->routeIs('guru.nilai*') ? 'active text-white' : '' }}">
+                            <div class="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center flex-shrink-0">
+                                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
+                                </svg>
+                            </div>
+                            <span class="font-medium text-sm">Nilai</span>
+                            <svg class="w-4 h-4 ml-auto transition-transform duration-200" :class="open ? 'rotate-90' : ''"
+                                fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                            </svg>
+                        </button>
+                        <div x-show="open" x-transition:enter="transition ease-out duration-200"
+                            x-transition:enter-start="opacity-0 -translate-y-1"
+                            x-transition:enter-end="opacity-100 translate-y-0"
+                            class="mt-1 ml-4 space-y-0.5">
+                            <a href="{{ route('guru.nilai.index') }}"
+                                class="flex items-center gap-2.5 pl-9 pr-4 py-2 rounded-lg text-sm text-white/60 hover:text-white transition duration-200 {{ request()->routeIs('guru.nilai.index') ? 'text-blue-400' : '' }}">
+                                <span class="w-1.5 h-1.5 rounded-full bg-current flex-shrink-0"></span>
+                                Input Nilai
+                            </a>
+                            <a href="{{ route('guru.nilai.rekap') }}"
+                                class="flex items-center gap-2.5 pl-9 pr-4 py-2 rounded-lg text-sm text-white/60 hover:text-white transition duration-200 {{ request()->routeIs('guru.nilai.create') ? 'text-blue-400' : '' }}">
+                                <span class="w-1.5 h-1.5 rounded-full bg-current flex-shrink-0"></span>
+                                Rekap Nilai
+                            </a>
+                        </div>
+                    </div>
+
+                    <p class="text-white/30 text-[10px] uppercase tracking-widest font-semibold px-4 pt-3 pb-2">Akun</p>
+
+                    {{-- Profil --}}
+                    <a href="{{ route('guru.profile.edit') }}"
+                        class="flex items-center gap-3 px-4 py-3 rounded-lg text-white/70 hover:text-white transition duration-200 {{ request()->routeIs('guru.profil') ? 'active text-white' : '' }}">
+                        <div class="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center flex-shrink-0">
+                            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+                            </svg>
+                        </div>
+                        <span class="font-medium text-sm">Profil Saya</span>
+                    </a>
+
+                @else
+
+                    <p class="text-white/30 text-[10px] uppercase tracking-widest font-semibold px-4 mb-3">Menu Utama</p>
+
+                    {{-- Dashboard --}}
+                    <a href="{{ route('admin.dashboard') }}"
+                        class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg text-white/70 hover:text-white transition duration-200 {{ request()->routeIs('admin.dashboard') ? 'active text-white' : '' }}">
+                        <div class="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center flex-shrink-0">
+                            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 0 1 6 3.75h2.25A2.25 2.25 0 0 1 10.5 6v2.25a2.25 2.25 0 0 1-2.25 2.25H6a2.25 2.25 0 0 1-2.25-2.25V6ZM3.75 15.75A2.25 2.25 0 0 1 6 13.5h2.25a2.25 2.25 0 0 1 2.25 2.25V18a2.25 2.25 0 0 1-2.25 2.25H6A2.25 2.25 0 0 1 3.75 18v-2.25ZM13.5 6a2.25 2.25 0 0 1 2.25-2.25H18A2.25 2.25 0 0 1 20.25 6v2.25A2.25 2.25 0 0 1 18 10.5h-2.25a2.25 2.25 0 0 1-2.25-2.25V6ZM13.5 15.75a2.25 2.25 0 0 1 2.25-2.25H18a2.25 2.25 0 0 1 2.25 2.25V18A2.25 2.25 0 0 1 18 20.25h-2.25A2.25 2.25 0 0 1 13.5 18v-2.25Z" />
+                            </svg>
+                        </div>
+                        <span class="font-medium text-sm">Dashboard</span>
+                    </a>
+
+                    {{-- Data Master --}}
+                    <div x-data="{ open: {{ request()->routeIs('guru.index') || request()->routeIs('siswa.*') || request()->routeIs('kelas.*') || request()->routeIs('matapelajaran.*') ? 'true' : 'false' }} }">
+                        <button @click="open = !open"
+                            class="sidebar-link w-full flex items-center gap-3 px-4 py-3 rounded-lg text-white/70 hover:text-white transition duration-200 {{ request()->routeIs('guru.index') || request()->routeIs('siswa.*') || request()->routeIs('kelas.*') || request()->routeIs('matapelajaran.*') ? 'active text-white' : '' }}">
+                            <div class="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center flex-shrink-0">
+                                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 5.25h16.5M3.75 9h16.5M3.75 12.75h16.5M3.75 16.5h16.5M3.75 20.25h16.5" />
+                                </svg>
+                            </div>
+                            <span class="font-medium text-sm">Data Master</span>
+                            <svg class="w-4 h-4 ml-auto transition-transform duration-200" :class="open ? 'rotate-90' : ''"
+                                fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                            </svg>
+                        </button>
+                        <div x-show="open" x-transition:enter="transition ease-out duration-200"
+                            x-transition:enter-start="opacity-0 -translate-y-1"
+                            x-transition:enter-end="opacity-100 translate-y-0" class="mt-1 ml-4 space-y-0.5">
+                            <a href="{{ route('admin.guru.index') }}"
+                                class="flex items-center gap-2.5 pl-9 pr-4 py-2 rounded-lg text-sm text-white/60 hover:text-white transition duration-200 {{ request()->routeIs('guru.index') || request()->routeIs('guru.create') || request()->routeIs('guru.edit') ? 'text-green-400' : '' }}">
+                                <span class="w-1.5 h-1.5 rounded-full bg-current flex-shrink-0"></span>
+                                Data Guru
+                            </a>
+                            <a href="{{ route('admin.siswa.index') }}"
+                                class="flex items-center gap-2.5 pl-9 pr-4 py-2 rounded-lg text-sm text-white/60 hover:text-white transition duration-200 {{ request()->routeIs('siswa.*') ? 'text-green-400' : '' }}">
+                                <span class="w-1.5 h-1.5 rounded-full bg-current flex-shrink-0"></span>
+                                Data Siswa
+                            </a>
+                            <a href="{{ route('admin.kelas.index') }}"
+                                class="flex items-center gap-2.5 pl-9 pr-4 py-2 rounded-lg text-sm text-white/60 hover:text-white transition duration-200 {{ request()->routeIs('kelas.*') ? 'text-green-400' : '' }}">
+                                <span class="w-1.5 h-1.5 rounded-full bg-current flex-shrink-0"></span>
+                                Data Kelas
+                            </a>
+                            <a href="{{ route('admin.matapelajaran.index') }}"
+                                class="flex items-center gap-2.5 pl-9 pr-4 py-2 rounded-lg text-sm text-white/60 hover:text-white transition duration-200 {{ request()->routeIs('matapelajaran.*') ? 'text-green-400' : '' }}">
+                                <span class="w-1.5 h-1.5 rounded-full bg-current flex-shrink-0"></span>
+                                Mata Pelajaran
+                            </a>
+                        </div>
+                    </div>
+
+                    {{-- Akademik --}}
+                    <div x-data="{ open: {{ request()->routeIs('tahunajaran.*') || request()->routeIs('semester.*') || request()->routeIs('siswakelas.*') || request()->routeIs('pengajar.*') || request()->routeIs('nilai.*') ? 'true' : 'false' }} }">
+                        <button @click="open = !open"
+                            class="sidebar-link w-full flex items-center gap-3 px-4 py-3 rounded-lg text-white/70 hover:text-white transition duration-200 {{ request()->routeIs('tahunajaran.*') || request()->routeIs('semester.*') || request()->routeIs('siswakelas.*') || request()->routeIs('pengajar.*') || request()->routeIs('nilai.*') ? 'active text-white' : '' }}">
+                            <div class="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center flex-shrink-0">
+                                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25A8.967 8.967 0 0118 3.75c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
+                                </svg>
+                            </div>
+                            <span class="font-medium text-sm">Akademik</span>
+                            <svg class="w-4 h-4 ml-auto transition-transform duration-200" :class="open ? 'rotate-90' : ''"
+                                fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                            </svg>
+                        </button>
+                        <div x-show="open" x-transition:enter="transition ease-out duration-200"
+                            x-transition:enter-start="opacity-0 -translate-y-1"
+                            x-transition:enter-end="opacity-100 translate-y-0" class="mt-1 ml-4 space-y-0.5">
+                            <a href="{{ route('admin.tahunajaran.index') }}"
+                                class="flex items-center gap-2.5 pl-9 pr-4 py-2 rounded-lg text-sm text-white/60 hover:text-white transition duration-200 {{ request()->routeIs('tahunajaran.*') ? 'text-green-400' : '' }}">
+                                <span class="w-1.5 h-1.5 rounded-full bg-current flex-shrink-0"></span>
+                                Tahun Ajaran
+                            </a>
+                            <a href="{{ route('admin.semester.index') }}"
+                                class="flex items-center gap-2.5 pl-9 pr-4 py-2 rounded-lg text-sm text-white/60 hover:text-white transition duration-200 {{ request()->routeIs('semester.*') ? 'text-green-400' : '' }}">
+                                <span class="w-1.5 h-1.5 rounded-full bg-current flex-shrink-0"></span>
+                                Semester
+                            </a>
+                            <a href="{{ route('admin.siswakelas.index') }}"
+                                class="flex items-center gap-2.5 pl-9 pr-4 py-2 rounded-lg text-sm text-white/60 hover:text-white transition duration-200 {{ request()->routeIs('siswakelas.*') ? 'text-green-400' : '' }}">
+                                <span class="w-1.5 h-1.5 rounded-full bg-current flex-shrink-0"></span>
+                                Siswa Kelas
+                            </a>
+                            <a href="{{ route('admin.pengajar.index') }}"
+                                class="flex items-center gap-2.5 pl-9 pr-4 py-2 rounded-lg text-sm text-white/60 hover:text-white transition duration-200 {{ request()->routeIs('pengajar.*') ? 'text-green-400' : '' }}">
+                                <span class="w-1.5 h-1.5 rounded-full bg-current flex-shrink-0"></span>
+                                Pengajar
+                            </a>
+                            <a href="{{ route('admin.nilai.index') }}"
+                                class="flex items-center gap-2.5 pl-9 pr-4 py-2 rounded-lg text-sm text-white/60 hover:text-white transition duration-200 {{ request()->routeIs('nilai.*') ? 'text-green-400' : '' }}">
+                                <span class="w-1.5 h-1.5 rounded-full bg-current flex-shrink-0"></span>
+                                Nilai Siswa
+                            </a>
+                        </div>
+                    </div>
+
+                    {{-- Berita --}}
+                    <div x-data="{ open: {{ request()->routeIs('berita.*') || request()->routeIs('kategori.*') ? 'true' : 'false' }} }">
+                        <button @click="open = !open"
+                            class="sidebar-link w-full flex items-center gap-3 px-4 py-3 rounded-lg text-white/70 hover:text-white transition duration-200 {{ request()->routeIs('berita.*') || request()->routeIs('kategori.*') ? 'active text-white' : '' }}">
+                            <div class="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center flex-shrink-0">
+                                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 7.5h1.5m-1.5 3h1.5m-7.5 3h7.5m-7.5 3h7.5m3-9h3.375c.621 0 1.125.504 1.125 1.125V18a2.25 2.25 0 0 1-2.25 2.25M16.5 7.5V18a2.25 2.25 0 0 0 2.25 2.25M16.5 7.5V4.875c0-.621-.504-1.125-1.125-1.125H4.125C3.504 3.75 3 4.254 3 4.875V18a2.25 2.25 0 0 0 2.25 2.25h13.5M6 7.5h3v3H6v-3Z" />
+                                </svg>
+                            </div>
+                            <span class="font-medium text-sm">Berita</span>
+                            <svg class="w-4 h-4 ml-auto transition-transform duration-200" :class="open ? 'rotate-90' : ''"
+                                fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                            </svg>
+                        </button>
+                        <div x-show="open" x-transition:enter="transition ease-out duration-200"
+                            x-transition:enter-start="opacity-0 -translate-y-1"
+                            x-transition:enter-end="opacity-100 translate-y-0" class="mt-1 ml-4 space-y-0.5">
+                            <a href="{{ route('admin.berita.index') }}"
+                                class="flex items-center gap-2.5 pl-9 pr-4 py-2 rounded-lg text-sm text-white/60 hover:text-white transition duration-200 {{ request()->routeIs('berita.*') && !request()->routeIs('kategori.*') ? 'text-green-400' : '' }}">
+                                <span class="w-1.5 h-1.5 rounded-full bg-current flex-shrink-0"></span>
+                                Data Berita
+                            </a>
+                            <a href="{{ route('admin.kategori.index') }}"
+                                class="flex items-center gap-2.5 pl-9 pr-4 py-2 rounded-lg text-sm text-white/60 hover:text-white transition duration-200 {{ request()->routeIs('kategori.*') ? 'text-green-400' : '' }}">
+                                <span class="w-1.5 h-1.5 rounded-full bg-current flex-shrink-0"></span>
+                                Kategori
+                            </a>
+                        </div>
+                    </div>
+
+                    {{-- Prestasi --}}
+                    <a href="{{ route('admin.prestasi.index') }}"
+                        class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg text-white/70 hover:text-white transition duration-200 {{ request()->routeIs('prestasi.*') ? 'active text-white' : '' }}">
+                        <div class="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center flex-shrink-0">
+                            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 18.75h-9m9 0a3 3 0 0 1 3 3h-15a3 3 0 0 1 3-3m9 0v-3.375c0-.621-.503-1.125-1.125-1.125h-.871M7.5 18.75v-3.375c0-.621.504-1.125 1.125-1.125h.872m5.007 0H9.497m5.007 0a7.454 7.454 0 0 1-.982-3.172M9.497 14.25a7.454 7.454 0 0 0 .981-3.172M5.25 4.236c-.982.143-1.954.317-2.916.52A6.003 6.003 0 0 0 7.73 9.728M5.25 4.236V4.5c0 2.108.966 3.99 2.48 5.228M5.25 4.236V2.721C7.456 2.41 9.71 2.25 12 2.25c2.291 0 4.545.16 6.75.47v1.516M7.73 9.728a6.726 6.726 0 0 0 2.748 1.35m8.272-6.842V4.5c0 2.108-.966 3.99-2.48 5.228m2.48-5.492a46.32 46.32 0 0 1 2.916.52 6.003 6.003 0 0 1-5.395 4.972m0 0a6.726 6.726 0 0 1-2.749 1.35m0 0a6.772 6.772 0 0 1-3.044 0" />
+                            </svg>
+                        </div>
+                        <span class="font-medium text-sm">Prestasi</span>
+                    </a>
+
+                    {{-- Galeri --}}
+                    <a href="{{ route('admin.galeri.index') }}"
+                        class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-lg text-white/70 hover:text-white transition duration-200 {{ request()->routeIs('galeri.*') ? 'active text-white' : '' }}">
+                        <div class="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center flex-shrink-0">
+                            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
+                            </svg>
+                        </div>
+                        <span class="font-medium text-sm">Galeri</span>
+                    </a>
+
+                @endif
+                {{-- END role check --}}
+
+            </nav>
+
+            <div class="p-4 border-t border-white/10">
+                <div class="flex items-center gap-3 px-2 mb-3">
+                    @if(auth()->user()->role === 'guru' && isset($guru) && $guru?->foto)
+                        <img src="{{ asset('storage/' . $guru->foto) }}" alt="{{ $guru->nama }}"
+                            class="w-8 h-8 rounded-full object-cover flex-shrink-0 ring-1 ring-white/20">
+                    @else
+                        <div class="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0
+                            {{ auth()->user()->role === 'guru' ? 'bg-blue-400/20' : 'bg-green-400/20' }}">
+                            <span class="font-bold text-sm {{ auth()->user()->role === 'guru' ? 'text-blue-400' : 'text-green-400' }}">
+                                {{ strtoupper(substr(auth()->user()->name ?? 'A', 0, 1)) }}
+                            </span>
+                        </div>
+                    @endif
+                    <div class="flex-1 min-w-0">
+                        <p class="text-white text-sm font-semibold truncate">
+                            {{ auth()->user()->role === 'guru' ? ($guru?->nama ?? auth()->user()->name) : (auth()->user()->name ?? 'Admin') }}
+                        </p>
+                        <p class="text-white/40 text-xs truncate">
+                            {{ auth()->user()->role === 'guru' ? 'Guru' : 'Administrator' }}
+                        </p>
+                    </div>
+                </div>
+                <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+                    <button type="submit"
+                        class="w-full flex items-center gap-2 px-4 py-2.5 rounded-lg text-red-400/80 hover:text-red-400 hover:bg-red-400/10 transition duration-200 text-sm font-medium">
+                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9" />
+                        </svg>
+                        Keluar
+                    </button>
+                </form>
+            </div>
+        </aside>
+
+        {{-- ===== MAIN CONTENT ===== --}}
+        <div class="flex-1 lg:ml-64 flex flex-col min-h-screen">
+
+            {{-- Topbar --}}
+            <header class="sticky top-0 z-10 bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between">
+                <div class="flex items-center gap-4">
+                    <button id="sidebar-toggle" class="lg:hidden text-gray-500 hover:text-gray-800 transition">
+                        <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+                        </svg>
+                    </button>
+                    <div>
+                        <h1 class="text-gray-800 font-bold text-lg leading-tight">@yield('page-title', 'Dashboard')</h1>
+                        <p class="text-gray-400 text-xs">@yield('page-subtitle',
+                            auth()->user()->role === 'guru'
+                                ? 'Selamat datang di portal guru'
+                                : 'Selamat datang di panel admin'
+                        )</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-3">
+                    {{-- Badge tahun ajaran aktif --}}
+                    @php $tahunAktif = \App\Models\TahunAjaran::where('is_active', true)->first(); @endphp
+                    @if($tahunAktif)
+                    <span class="hidden sm:flex items-center gap-1.5 text-xs text-primary bg-primary/10 font-semibold px-3 py-1.5 rounded-lg">
+                        <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5" />
+                        </svg>
+                        TA {{ $tahunAktif->nama }}
+                    </span>
+                    @endif
+                    <span class="hidden sm:block text-xs text-gray-400">{{ now()->isoFormat('dddd, D MMMM Y') }}</span>
+                    <a href="{{ url('/') }}" target="_blank"
+                        class="flex items-center gap-1.5 text-xs font-semibold text-primary border border-primary/30 px-3 py-1.5 rounded-lg hover:bg-primary hover:text-white transition duration-200">
+                        <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
+                        </svg>
+                        Lihat Website
                     </a>
                 </div>
+            </header>
 
-                <div class="flex items-center gap-3 px-4">
+            {{-- Page Content --}}
+            <main class="flex-1 p-6">
+                @yield('content')
+            </main>
 
-                    @guest
-                        <a href="{{ route('login') }}"
-                            class="lg:hidden flex items-center gap-1.5 font-semibold text-sm text-primary bg-white border-2 border-white py-1.5 px-4 rounded-xl hover:text-black hover:bg-transparent hover:border-white transition duration-300">
-                            Login
-                        </a>
-                    @endguest
-                    @auth
-                        <a href="
-                            @if (auth()->user()->role === 'admin') {{ route('admin.dashboard') }}
-                            @elseif(auth()->user()->role === 'guru') {{ route('guru.dashboard') }}
-                            @else @endif "
-                            class="lg:hidden flex items-center gap-1.5 font-semibold text-sm text-primary bg-white border-2 border-white py-1.5 px-4 rounded-xl hover:text-black hover:bg-transparent hover:border-white transition duration-300">
-                            Dashboard
-                        </a>
-                    @endauth
-
-                    <button id="bars" name="bars" type="button" class="block lg:hidden">
-                        <span class="bars-line origin-top-left transition duration-300 ease-in-out"></span>
-                        <span class="bars-line transition duration-300 ease-in-out"></span>
-                        <span class="bars-line origin-bottom-left transition duration-300 ease-in-out"></span>
-                    </button>
-
-                    <nav id="nav-menu"
-                        class="hidden absolute py-5 bg-primary shadow-lg rounded-lg max-w-[200px] w-full right-4 top-full lg:flex lg:items-center lg:static lg:bg-transparent lg:max-w-full lg:shadow-none lg:rounded-none lg:py-0">
-                        <ul class="block lg:flex lg:items-center">
-                            <li class="group">
-                                <a href="/"
-                                    class="font-semibold text-white py-2 mx-8 flex group-hover:text-black lg:mx-4">Beranda</a>
-                            </li>
-
-                            <li class="group relative">
-                                <a href="#"
-                                    class="font-semibold text-white py-2 mx-8 flex items-center gap-1 group-hover:text-black lg:mx-4">
-                                    Pendidikan
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                        stroke-width="2" stroke="currentColor"
-                                        class="w-3 h-3 transition-transform duration-300 group-hover:rotate-180">
-                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                            d="m19.5 8.25-7.5 7.5-7.5-7.5" />
-                                    </svg>
-                                </a>
-
-                                <ul id="dropdown-pendidikan"
-                                    class="hidden lg:group-hover:block lg:absolute lg:top-full lg:left-0 lg:bg-primary lg:shadow-xl lg:rounded-xl lg:min-w-[200px] lg:py-2 ml-4 lg:ml-0">
-                                    <li>
-                                        <a href="{{ route('pendidikan.ra') }}"
-                                            class="flex items-center gap-2 text-white font-medium text-sm py-2 px-5 hover:text-black transition duration-200">
-                                            <span class="w-1.5 h-1.5 rounded-full bg-white flex-shrink-0"></span>
-                                            RA Darussalam
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="{{ route('pendidikan.mi') }}"
-                                            class="flex items-center gap-2 text-white font-medium text-sm py-2 px-5 hover:text-black transition duration-200">
-                                            <span class="w-1.5 h-1.5 rounded-full bg-white flex-shrink-0"></span>
-                                            MI Darussalam
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="{{ route('pendidikan.mts') }}"
-                                            class="flex items-center gap-2 text-white font-medium text-sm py-2 px-5 hover:text-black transition duration-200">
-                                            <span class="w-1.5 h-1.5 rounded-full bg-white flex-shrink-0"></span>
-                                            MTs Darussalam
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-
-                            <li class="group">
-                                <a href="{{ route('page.berita-index') }}"
-                                    class="font-semibold text-white py-2 mx-8 flex group-hover:text-black lg:mx-4">Berita</a>
-                            </li>
-                            <li class="group">
-                                <a href="{{ route('page.prestasi-index') }}"
-                                    class="font-semibold text-white py-2 mx-8 flex group-hover:text-black lg:mx-4">Prestasi</a>
-                            </li>
-                            <li class="group">
-                                <a href="#"
-                                    class="font-semibold text-white py-2 mx-8 flex group-hover:text-black lg:mx-4">Galeri</a>
-                            </li>
-
-                            <li class="hidden lg:block lg:ml-4">
-                                @guest
-                                    <a href="{{ route('login') }}"
-                                        class="flex items-center gap-1.5 font-semibold text-sm text-primary bg-white border-2 border-white py-1.5 px-4 rounded-xl hover:text-black hover:bg-transparent hover:border-white transition duration-300">
-                                        Login
-                                    </a>
-                                @endguest
-                                @auth
-                                    <a href="
-                            @if (auth()->user()->role === 'admin') {{ route('admin.dashboard') }}
-                            @elseif(auth()->user()->role === 'guru') {{ route('guru.dashboard') }}
-                            @else @endif "
-                                        class="flex items-center gap-1.5 font-semibold text-sm text-primary bg-white border-2 border-white py-1.5 px-4 rounded-xl hover:text-black hover:bg-transparent hover:border-white transition duration-300">
-                                        Dashboard
-                                    </a>
-                                @endauth
-                            </li>
-                        </ul>
-                    </nav>
-
-                </div>
-            </div>
+            {{-- Footer --}}
+            <footer class="px-6 py-4 border-t border-gray-200 text-center text-xs text-gray-400">
+                &copy; {{ date('Y') }} Yayasan Darul Istiqlal. All rights reserved.
+            </footer>
         </div>
-    </header>
-    {{-- header --}}
+    </div>
 
-    {{-- conten --}}
-    @yield('content')
-    {{-- conten --}}
+    <script>
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('overlay');
+        const toggle  = document.getElementById('sidebar-toggle');
 
-    {{-- footer --}}
-    <footer class="pt-24 pb-10"
-        style="background: linear-gradient(135deg, #0a2e1a 0%, #0f4a28 40%, #1a6b3a 70%, #0d3d20 100%);">
-        <div class="container">
-            <div class="sm:flex sm:flex-wrap -mt-5 justify-between">
-                <div class="px-6 max-w-46 mb-10">
-                    <div class="w-full px-4 mb-4">
-                        <div class="w-full px-4 flex flex-col items-center justify-center mt-20 mb-2 relative">
-                            <img src="{{ asset('img/logo.png') }}" alt="logo"
-                                class="size-24 -top-24 absolute hover:scale-105 transition">
-                            <h1 class="font-bold text-xl font-sans text-white">Yayasan</h1>
-                            <h2 class="font-bold text-3xl font-sans text-white">Darul Istiqlal</h2>
-                        </div>
-                        <div class="w-full text-center">
-                            <h4 class="font-semibold text-md text-white font-sans">Bilapora Rebba</h4>
-                        </div>
-                    </div>
-                    <div class="w-full flex flex-wrap justify-center mx-auto">
-                        <a href="https://www.instagram.com/yasdi_media?igsh=MTEwdTN1MGlpd2E4eQ==" target="_blank"
-                            class="w-7 h-7 mr-4 rounded-full flex justify-center items-center border border-slate-900 hover:border-white hover:bg-primary hover:text-white transition duration-300 animate-goyang">
-                            <svg role="img" width="16" class="fill-current" viewBox="0 0 24 24"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <title>Instagram</title>
-                                <path
-                                    d="M7.0301.084c-1.2768.0602-2.1487.264-2.911.5634-.7888.3075-1.4575.72-2.1228 1.3877-.6652.6677-1.075 1.3368-1.3802 2.127-.2954.7638-.4956 1.6365-.552 2.914-.0564 1.2775-.0689 1.6882-.0626 4.947.0062 3.2586.0206 3.6671.0825 4.9473.061 1.2765.264 2.1482.5635 2.9107.308.7889.72 1.4573 1.388 2.1228.6679.6655 1.3365 1.0743 2.1285 1.38.7632.295 1.6361.4961 2.9134.552 1.2773.056 1.6884.069 4.9462.0627 3.2578-.0062 3.668-.0207 4.9478-.0814 1.28-.0607 2.147-.2652 2.9098-.5633.7889-.3086 1.4578-.72 2.1228-1.3881.665-.6682 1.0745-1.3378 1.3795-2.1284.2957-.7632.4966-1.636.552-2.9124.056-1.2809.0692-1.6898.063-4.948-.0063-3.2583-.021-3.6668-.0817-4.9465-.0607-1.2797-.264-2.1487-.5633-2.9117-.3084-.7889-.72-1.4568-1.3876-2.1228C21.2982 1.33 20.628.9208 19.8378.6165 19.074.321 18.2017.1197 16.9244.0645 15.6471.0093 15.236-.005 11.977.0014 8.718.0076 8.31.0215 7.0301.0839m.1402 21.6932c-1.17-.0509-1.8053-.2453-2.2287-.408-.5606-.216-.96-.4771-1.3819-.895-.422-.4178-.6811-.8186-.9-1.378-.1644-.4234-.3624-1.058-.4171-2.228-.0595-1.2645-.072-1.6442-.079-4.848-.007-3.2037.0053-3.583.0607-4.848.05-1.169.2456-1.805.408-2.2282.216-.5613.4762-.96.895-1.3816.4188-.4217.8184-.6814 1.3783-.9003.423-.1651 1.0575-.3614 2.227-.4171 1.2655-.06 1.6447-.072 4.848-.079 3.2033-.007 3.5835.005 4.8495.0608 1.169.0508 1.8053.2445 2.228.408.5608.216.96.4754 1.3816.895.4217.4194.6816.8176.9005 1.3787.1653.4217.3617 1.056.4169 2.2263.0602 1.2655.0739 1.645.0796 4.848.0058 3.203-.0055 3.5834-.061 4.848-.051 1.17-.245 1.8055-.408 2.2294-.216.5604-.4763.96-.8954 1.3814-.419.4215-.8181.6811-1.3783.9-.4224.1649-1.0577.3617-2.2262.4174-1.2656.0595-1.6448.072-4.8493.079-3.2045.007-3.5825-.006-4.848-.0608M16.953 5.5864A1.44 1.44 0 1 0 18.39 4.144a1.44 1.44 0 0 0-1.437 1.4424M5.8385 12.012c.0067 3.4032 2.7706 6.1557 6.173 6.1493 3.4026-.0065 6.157-2.7701 6.1506-6.1733-.0065-3.4032-2.771-6.1565-6.174-6.1498-3.403.0067-6.156 2.771-6.1496 6.1738M8 12.0077a4 4 0 1 1 4.008 3.9921A3.9996 3.9996 0 0 1 8 12.0077" />
-                            </svg>
-                        </a>
-                        <a href="#" target="_blank"
-                            class="w-7 h-7 mr-4 rounded-full flex justify-center items-center border border-slate-900 hover:border-white hover:bg-primary hover:text-white transition duration-300 animate-goyang">
-                            <svg role="img" width="16" class="fill-current" viewBox="0 0 24 24"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <title>TikTok</title>
-                                <path
-                                    d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z" />
-                            </svg>
-                        </a>
-                        <a href="#" target="_blank"
-                            class="w-7 h-7 mr-4 rounded-full flex justify-center items-center border border-slate-900 hover:border-white hover:bg-primary hover:text-white transition duration-300 animate-goyang">
-                            <svg role="img" width="16" class="fill-current" viewBox="0 0 24 24"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <title>Facebook</title>
-                                <path
-                                    d="M9.101 23.691v-7.98H6.627v-3.667h2.474v-1.58c0-4.085 1.848-5.978 5.858-5.978.401 0 .955.042 1.468.103a8.68 8.68 0 0 1 1.141.195v3.325a8.623 8.623 0 0 0-.653-.036 26.805 26.805 0 0 0-.733-.009c-.707 0-1.259.096-1.675.309a1.686 1.686 0 0 0-.679.622c-.258.42-.374.995-.374 1.752v1.297h3.919l-.386 2.103-.287 1.564h-3.246v8.245C19.396 23.238 24 18.179 24 12.044c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.628 3.874 10.35 9.101 11.647Z" />
-                            </svg>
-                        </a>
-                        <a href="https://wa.me/6281945553965" target="_blank"
-                            class="w-7 h-7 mr-4 rounded-full flex justify-center items-center border border-slate-900 hover:border-white hover:bg-primary hover:text-white transition duration-300 animate-goyang">
-                            <svg role="img" width="16" class="fill-current" viewBox="0 0 24 24"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <title>WhatsApp</title>
-                                <path
-                                    d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z" />
-                            </svg>
-                        </a>
-                    </div>
-                </div>
-                <div class="px-4 max-w-46 mb-10">
-                    <div class="max-w-full mx-auto">
-                        <h2 class="font-bold text-lg text-white mb-2">Contact</h2>
-                        <div class="flex flex-wrap px-4 mb-5">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                stroke-width="1.5" stroke="currentColor" class="size-6 mr-3 text-white">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
-                            </svg>
-                            <a href="#" class="text-white text-sm mt-1">yayasandarulistiqlal@gmail.com</a>
-                        </div>
-                        <div class="flex flex-wrap px-4 mb-5 relative">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                stroke-width="1.5" stroke="currentColor"
-                                class="size-7 mt-2 mr-3 text-white absolute">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
-                            </svg>
-                            <a href="#" class="text-white text-sm mt-1 ml-9 sm:max-w-60">Dusun Taman, Bilapora Reba, Kec. Lenteng, Kab. Sumenep, Jawa Timur.</a>
-                        </div>
-                        <div class="flex flex-wrap px-4 mb-5">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                stroke-width="1.5" stroke="currentColor" class="size-6 mr-3 text-white absolute">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 0 1-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z" />
-                            </svg>
-                            <a href="https://wa.me/6281945553965" class="text-white text-sm mt-1 ml-9">+6281945553965</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="px-4 max-w-46">
-                    <div class="max-w-full mx-auto pr-36">
-                        <h2 class="font-bold text-lg text-white mb-5">Useful Link</h2>
-                        <div class="flex flex-wrap mb-5">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                stroke-width="1.5" stroke="currentColor" class="size-3 text-white ml-5">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="m5.25 4.5 7.5 7.5-7.5 7.5m6-15 7.5 7.5-7.5 7.5" />
-                            </svg>
-                            <a href="/"
-                                class="text-base text-white font-sans ml-3 -mt-2 tracking-wider">Beranda</a>
-                        </div>
-                        <div class="flex flex-wrap mb-5">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                stroke-width="1.5" stroke="currentColor" class="size-3 text-white ml-5">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="m5.25 4.5 7.5 7.5-7.5 7.5m6-15 7.5 7.5-7.5 7.5" />
-                            </svg>
-                            <a href="{{ route('page.berita-index') }}"
-                                class="text-base text-white font-sans ml-3 -mt-2 tracking-wider">Berita</a>
-                        </div>
-                        <div class="flex flex-wrap mb-5">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                stroke-width="1.5" stroke="currentColor" class="size-3 text-white ml-5">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="m5.25 4.5 7.5 7.5-7.5 7.5m6-15 7.5 7.5-7.5 7.5" />
-                            </svg>
-                            <a href="{{ route('page.prestasi-index') }}"
-                                class="text-base text-white font-sans ml-3 -mt-2 tracking-wider">Prestasi</a>
-                        </div>
-                        <div class="flex flex-wrap mb-5">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                stroke-width="1.5" stroke="currentColor" class="size-3 text-white ml-5">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="m5.25 4.5 7.5 7.5-7.5 7.5m6-15 7.5 7.5-7.5 7.5" />
-                            </svg>
-                            <a href=""
-                                class="text-base text-white font-sans ml-3 -mt-2 tracking-wider">Galeri</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="max-w-full mx-auto border-t border-slate-500">
-                <p class="sm:text-base text-sm text-white text-center py-2 font-sans">©2026 Yayasan Darul Istiqlal. All
-                    rights reserved.</p>
-            </div>
-        </div>
-    </footer>
-    {{-- footer --}}
+        toggle?.addEventListener('click', () => {
+            sidebar.classList.toggle('-translate-x-full');
+            overlay.classList.toggle('hidden');
+        });
+        overlay?.addEventListener('click', () => {
+            sidebar.classList.add('-translate-x-full');
+            overlay.classList.add('hidden');
+        });
+    </script>
 
-    <script src="{{ asset('js/style.js') }}"></script>
-
+    @stack('scripts')
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 </body>
 
 </html>

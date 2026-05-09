@@ -19,5 +19,10 @@ class Guru extends Model
         return $this->hasMany(Pengajar::class);
     }
 
+public function waliKelas()
+{
+    return $this->hasMany(Kelas::class, 'wali_kelas_id');
+}
+
     use HasFactory;
 }

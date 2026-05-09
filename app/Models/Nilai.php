@@ -11,6 +11,7 @@ class Nilai extends Model
     'siswa_id',
     'pengajar_id',
     'semester_id',
+    'nilai_harian',
     'nilai_tugas',
     'nilai_uts',
     'nilai_uas',

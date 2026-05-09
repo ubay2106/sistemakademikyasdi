@@ -11,9 +11,23 @@ use Illuminate\Support\Facades\Storage;
 
 class GuruController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $gurus = Guru::with('user')->latest()->paginate(10);
+        $search = $request->search;
+
+        $gurus = Guru::with('user')
+            ->when($search, function ($query, $search) {
+                $query
+                    ->where('nama', 'like', '%' . $search . '%')
+                    ->orWhere('nip', 'like', '%' . $search . '%')
+                    ->orWhere('no_hp', 'like', '%' . $search . '%')
+                    ->orWhereHas('user', function ($q) use ($search) {
+                        $q->where('username', 'like', '%' . $search . '%');
+                    });
+            })
+            ->latest()
+            ->paginate(10);
+
         return view('admin.guru.index', compact('gurus'));
     }
 
@@ -63,8 +77,7 @@ class GuruController extends Controller
             'foto' => $foto,
         ]);
 
-        return redirect()->route('guru.index')
-            ->with('success', 'Data guru dan akun login berhasil dibuat.');
+        return redirect()->route('admin.guru.index')->with('success', 'Data guru dan akun login berhasil dibuat.');
     }
 
     public function edit(Guru $guru)
@@ -110,24 +123,30 @@ class GuruController extends Controller
             'name' => $request->nama,
         ]);
 
-        return redirect()->route('guru.index')
-            ->with('success', 'Data guru berhasil diperbarui.');
+        return redirect()->route('admin.guru.index')->with('success', 'Data guru berhasil diperbarui.');
     }
 
     public function destroy(Guru $guru)
     {
-        if ($guru->foto) {
-            Storage::disk('public')->delete($guru->foto);
+        if ($guru->pengajars()->exists() || $guru->waliKelas()->exists()) {
+            return back()->with('error', 'Guru tidak bisa dihapus karena masih digunakan.');
         }
 
         $guru->user()->delete();
+        $guru->delete();
 
-        return redirect()->route('guru.index')
-            ->with('success', 'Data guru dan akun berhasil dihapus.');
+        return redirect()->route('admin.guru.index')->with('success', 'Data guru berhasil dihapus.');
     }
 
     public function show(Guru $guru)
-{
-    return view('page.guru-show', compact('guru'));
-}
+    {
+        return view('page.guru-show', compact('guru'));
+    }
+
+    public function guruLanding()
+    {
+        $gurus = Guru::latest()->paginate(12);
+
+        return view('page.guru-index', compact('gurus'));
+    }
 }

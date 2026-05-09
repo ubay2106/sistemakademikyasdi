@@ -8,12 +8,19 @@ use Illuminate\Http\Request;
 
 class MataPelajaranController extends Controller
 {
-    public function index()
-    {
-        $mataPelajarans = MataPelajaran::latest()->paginate(10);
+    public function index(Request $request)
+{
+    $search = $request->search;
 
-        return view('admin.matapelajaran.index', compact('mataPelajarans'));
-    }
+    $matapelajarans = MataPelajaran::when($search, function ($query, $search) {
+            $query->where('nama', 'like', '%' . $search . '%')
+                ->orWhere('deskripsi', 'like', '%' . $search . '%');
+        })
+        ->latest()
+        ->paginate(10);
+
+    return view('admin.matapelajaran.index', compact('matapelajarans'));
+}
 
     public function create()
     {
@@ -34,43 +41,42 @@ class MataPelajaranController extends Controller
             'is_active' => $request->has('is_active') ? 1 : 0,
         ]);
 
-        return redirect()->route('matapelajaran.index')
+        return redirect()->route('admin.matapelajaran.index')
             ->with('success', 'Mata pelajaran berhasil ditambahkan.');
     }
 
-    public function show(MataPelajaran $mataPelajaran)
+    public function edit(MataPelajaran $matapelajaran)
     {
-        return view('admin.matapelajaran.show', compact('mataPelajaran'));
+        return view('admin.matapelajaran.edit', compact('matapelajaran'));
     }
 
-    public function edit(MataPelajaran $mataPelajaran)
-    {
-        return view('admin.matapelajaran.edit', compact('mataPelajaran'));
-    }
-
-    public function update(Request $request, MataPelajaran $mataPelajaran)
+    public function update(Request $request, MataPelajaran $matapelajaran)
     {
         $request->validate([
-            'nama' => 'required|string|max:150|unique:mata_pelajarans,nama,' . $mataPelajaran->id,
+            'nama' => 'required|string|max:150|unique:mata_pelajarans,nama,' . $matapelajaran->id,
             'deskripsi' => 'nullable|string',
             'is_active' => 'nullable|boolean',
         ]);
 
-        $mataPelajaran->update([
+        $matapelajaran->update([
             'nama' => $request->nama,
             'deskripsi' => $request->deskripsi,
             'is_active' => $request->has('is_active') ? 1 : 0,
         ]);
 
-        return redirect()->route('matapelajaran.index')
+        return redirect()->route('admin.matapelajaran.index')
             ->with('success', 'Mata pelajaran berhasil diperbarui.');
     }
 
-    public function destroy(MataPelajaran $mataPelajaran)
-    {
-        $mataPelajaran->delete();
-
-        return redirect()->route('matapelajaran.index')
-            ->with('success', 'Mata pelajaran berhasil dihapus.');
+    public function destroy(MataPelajaran $matapelajaran)
+{
+    if ($matapelajaran->pengajars()->exists()) {
+        return back()->with('error', 'Mata pelajaran tidak bisa dihapus karena masih digunakan oleh data pengajar.');
     }
+
+    $matapelajaran->delete();
+
+    return redirect()->route('admin.matapelajaran.index')
+        ->with('success', 'Mata pelajaran berhasil dihapus.');
+}
 }

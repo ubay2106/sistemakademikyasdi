@@ -19,5 +19,10 @@ class Kelas extends Model
         return $this->hasMany(Pengajar::class);
     }
 
+public function siswaKelas()
+{
+    return $this->hasMany(SiswaKelas::class);
+}
+
     use HasFactory;
 }

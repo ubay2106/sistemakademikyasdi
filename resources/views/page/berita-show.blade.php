@@ -1,4 +1,4 @@
-@extends('layout.app') {{-- sesuaikan dengan nama layout landing page kamu --}}
+@extends('layout.main')
 
 @section('title', $berita->meta_title ?? $berita->judul)
 @section('meta_description', $berita->meta_description ?? $berita->ringkasan)
@@ -147,15 +147,6 @@
             <p class="text-sm text-gray-700 leading-relaxed italic font-medium">{{ $berita->ringkasan }}</p>
         </div>
         @endif
-
-        {{-- ============================================================
-             ISI BERITA
-             Menangani dua kemungkinan:
-             1. Isi tersimpan sebagai HTML (dari TinyMCE/Quill)   → {!! !!}
-             2. Isi tersimpan sebagai plain text dengan newline    → nl2br()
-             Deteksi otomatis: jika mengandung tag HTML gunakan render HTML,
-             jika tidak gunakan nl2br agar paragraf tampil dengan benar.
-        ============================================================ --}}
         @php
             $isiHtml   = $berita->isi;
             $isHtml    = $isiHtml !== strip_tags($isiHtml); // true jika mengandung tag HTML

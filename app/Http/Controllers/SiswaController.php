@@ -8,12 +8,21 @@ use Illuminate\Http\Request;
 
 class SiswaController extends Controller
 {
-    public function index()
-    {
-        $siswas = Siswa::latest()->paginate(10);
+    public function index(Request $request)
+{
+    $search = $request->search;
 
-        return view('admin.siswa.index', compact('siswas'));
-    }
+    $siswas = Siswa::when($search, function ($query, $search) {
+            $query->where('nama', 'like', '%' . $search . '%')
+                ->orWhere('nis', 'like', '%' . $search . '%')
+                ->orWhere('jenis_kelamin', 'like', '%' . $search . '%')
+                ->orWhere('status', 'like', '%' . $search . '%');
+        })
+        ->latest()
+        ->paginate(10);
+
+    return view('admin.siswa.index', compact('siswas'));
+}
 
     public function create()
     {
@@ -40,7 +49,7 @@ class SiswaController extends Controller
             'status' => $request->status,
         ]);
 
-        return redirect()->route('siswa.index')
+        return redirect()->route('admin.siswa.index')
             ->with('success', 'Data siswa berhasil ditambahkan.');
     }
 
@@ -74,15 +83,22 @@ class SiswaController extends Controller
             'status' => $request->status,
         ]);
 
-        return redirect()->route('siswa.index')
+        return redirect()->route('admin.siswa.index')
             ->with('success', 'Data siswa berhasil diperbarui.');
     }
 
     public function destroy(Siswa $siswa)
-    {
-        $siswa->delete();
-
-        return redirect()->route('siswa.index')
-            ->with('success', 'Data siswa berhasil dihapus.');
+{
+    if (
+        $siswa->siswaKelas()->exists() ||
+        $siswa->nilais()->exists()
+    ) {
+        return back()->with('error', 'Siswa tidak bisa dihapus karena sudah memiliki data kelas atau nilai.');
     }
+
+    $siswa->delete();
+
+    return redirect()->route('admin.siswa.index')
+        ->with('success', 'Data siswa berhasil dihapus.');
+}
 }

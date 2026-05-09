@@ -9,11 +9,19 @@ use Illuminate\Http\Request;
 
 class KelasController extends Controller
 {
-    public function index()
-    {
-        $kelas = Kelas::with('waliKelas')->latest()->paginate(10);
-        return view('admin.kelas.index', compact('kelas'));
-    }
+    public function index(Request $request)
+{
+    $kelas = Kelas::with('waliKelas')
+        ->when($request->search, function ($query, $search) {
+            $query->where('nama_kelas', 'like', '%' . $search . '%');
+        })
+        ->latest()
+        ->paginate(10)->appends(request()->query());
+
+    $gurus = Guru::orderBy('nama')->get();
+
+    return view('admin.kelas.index', compact('kelas', 'gurus'));
+}
 
     public function create()
     {
@@ -33,7 +41,7 @@ class KelasController extends Controller
             'wali_kelas_id' => $request->wali_kelas_id,
         ]);
 
-        return redirect()->route('kelas.index')
+        return redirect()->route('admin.kelas.index')
             ->with('success', 'Data kelas berhasil ditambahkan.');
     }
 
@@ -55,15 +63,22 @@ class KelasController extends Controller
             'wali_kelas_id' => $request->wali_kelas_id,
         ]);
 
-        return redirect()->route('kelas.index')
+        return redirect()->route('admin.kelas.index')
             ->with('success', 'Data kelas berhasil diperbarui.');
     }
 
     public function destroy(Kelas $kelas)
-    {
-        $kelas->delete();
-
-        return redirect()->route('kelas.index')
-            ->with('success', 'Data kelas berhasil dihapus.');
+{
+    if (
+        $kelas->pengajars()->exists() ||
+        $kelas->siswaKelas()->exists()
+    ) {
+        return back()->with('error', 'Kelas tidak bisa dihapus karena masih digunakan.');
     }
+
+    $kelas->delete();
+
+    return redirect()->route('admin.kelas.index')
+        ->with('success', 'Data kelas berhasil dihapus.');
+}
 }

@@ -16,5 +16,15 @@ class Siswa extends Model
     'status',
 ];
 
+public function siswaKelas()
+{
+    return $this->hasMany(SiswaKelas::class);
+}
+
+public function nilais()
+{
+    return $this->hasMany(Nilai::class);
+}
+
     use HasFactory;
 }

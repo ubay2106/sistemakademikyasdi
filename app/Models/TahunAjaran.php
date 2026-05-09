@@ -13,5 +13,21 @@ class TahunAjaran extends Model
     'tanggal_selesai',
     'is_active',
 ];
+
+public function semesters()
+{
+    return $this->hasMany(Semester::class);
+}
+
+public function pengajars()
+{
+    return $this->hasMany(Pengajar::class);
+}
+
+public function siswaKelas()
+{
+    return $this->hasMany(SiswaKelas::class);
+}
+
     use HasFactory;
 }

@@ -13,14 +13,27 @@ use Illuminate\Support\Str;
 
 class BeritaController extends Controller
 {
-    public function index()
-    {
-        $beritas = Berita::with(['kategori', 'user'])
-            ->latest()
-            ->paginate(10);
+    public function index(Request $request)
+{
+    $search = $request->search;
 
-        return view('admin.berita.index', compact('beritas'));
-    }
+    $beritas = Berita::with(['kategori', 'user'])
+        ->when($search, function ($query, $search) {
+            $query->where('judul', 'like', '%' . $search . '%')
+                ->orWhere('ringkasan', 'like', '%' . $search . '%')
+                ->orWhere('status', 'like', '%' . $search . '%')
+                ->orWhereHas('kategori', function ($q) use ($search) {
+                    $q->where('nama', 'like', '%' . $search . '%');
+                })
+                ->orWhereHas('user', function ($q) use ($search) {
+                    $q->where('name', 'like', '%' . $search . '%');
+                });
+        })
+        ->latest()
+        ->paginate(10);
+
+    return view('admin.berita.index', compact('beritas'));
+}
 
     public function create()
     {
@@ -75,7 +88,7 @@ class BeritaController extends Controller
             $berita->tags()->sync($request->tags);
         }
 
-        return redirect()->route('berita.index')->with('success', 'Berita berhasil ditambahkan.');
+        return redirect()->route('admin.berita.index')->with('success', 'Berita berhasil ditambahkan.');
     }
 
     public function show(Berita $beritum)
@@ -143,7 +156,7 @@ class BeritaController extends Controller
 
         $berita->tags()->sync($request->tags ?? []);
 
-        return redirect()->route('berita.index')->with('success', 'Berita berhasil diperbarui.');
+        return redirect()->route('admin.berita.index')->with('success', 'Berita berhasil diperbarui.');
     }
 
     public function destroy(Berita $beritum)
@@ -156,7 +169,7 @@ class BeritaController extends Controller
 
         $berita->forceDelete();
 
-        return redirect()->route('berita.index')->with('success', 'Berita berhasil dihapus.');
+        return redirect()->route('admin.berita.index')->with('success', 'Berita berhasil dihapus.');
     }
 
     public function frontendIndex(Request $request)

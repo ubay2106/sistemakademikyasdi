@@ -41,7 +41,7 @@ class SemesterController extends Controller
             'is_active' => $request->has('is_active') ? true : false,
         ]);
 
-        return redirect()->route('semester.index')
+        return redirect()->route('admin.semester.index')
             ->with('success', 'Semester berhasil ditambahkan.');
     }
 
@@ -71,15 +71,19 @@ class SemesterController extends Controller
             'is_active' => $request->has('is_active') ? true : false,
         ]);
 
-        return redirect()->route('semester.index')
+        return redirect()->route('admin.semester.index')
             ->with('success', 'Semester berhasil diperbarui.');
     }
 
     public function destroy(Semester $semester)
-    {
-        $semester->delete();
-
-        return redirect()->route('semester.index')
-            ->with('success', 'Semester berhasil dihapus.');
+{
+    if ($semester->nilais()->exists()) {
+        return back()->with('error', 'Semester tidak bisa dihapus karena sudah digunakan pada data nilai.');
     }
+
+    $semester->delete();
+
+    return redirect()->route('admin.semester.index')
+        ->with('success', 'Semester berhasil dihapus.');
+}
 }

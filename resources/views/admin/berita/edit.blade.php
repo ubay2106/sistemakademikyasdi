@@ -1,10 +1,10 @@
-@extends('admin.layout.app')
+@extends('layout.app')
 
 @section('content')
 
 {{-- Header --}}
 <div class="flex items-center gap-3 mb-6">
-    <a href="{{ route('berita.index') }}"
+    <a href="{{ route('admin.berita.index') }}"
         class="w-9 h-9 rounded-xl bg-white border border-gray-200 flex items-center justify-center text-gray-400 hover:text-gray-700 hover:border-gray-300 transition">
         <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
@@ -37,7 +37,7 @@
 </div>
 @endif
 
-<form method="POST" action="{{ route('berita.update', $berita) }}" enctype="multipart/form-data">
+<form method="POST" action="{{ route('admin.berita.update', $berita) }}" enctype="multipart/form-data">
     @csrf
     @method('PUT')
 
@@ -334,7 +334,7 @@
                     </svg>
                     Simpan Perubahan
                 </button>
-                <a href="{{ route('berita.index') }}"
+                <a href="{{ route('admin.berita.index') }}"
                     class="w-full flex items-center justify-center gap-2 bg-white border border-gray-200 text-gray-600 font-semibold text-sm py-3 px-5 rounded-xl hover:bg-gray-50 transition duration-200">
                     Batal
                 </a>

@@ -1,4 +1,4 @@
-@extends('layout.app')
+@extends('layout.main')
 
 @section('title', $prestasi->meta_title ?? $prestasi->judul)
 @section('meta_description', $prestasi->meta_description ?? $prestasi->deskripsi)
@@ -11,7 +11,7 @@
         <nav class="flex items-center gap-2 text-xs text-gray-400">
             <a href="{{ url('/') }}" class="hover:text-primary transition">Beranda</a>
             <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5"/></svg>
-            <a href="{{ route('prestasi.index') }}" class="hover:text-primary transition">Prestasi</a>
+            <a href="{{ route('page.prestasi-index') }}" class="hover:text-primary transition">Prestasi</a>
             <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5"/></svg>
             <span class="text-gray-600 truncate max-w-xs">{{ $prestasi->judul }}</span>
         </nav>

@@ -12,17 +12,36 @@ use Illuminate\Http\Request;
 
 class PengajarController extends Controller
 {
-    public function index()
-    {
-        $pengajars = Pengajar::with([
+    public function index(Request $request)
+{
+    $search = $request->search;
+
+    $pengajars = Pengajar::with([
             'guru',
             'kelas',
             'mataPelajaran',
             'tahunAjaran'
-        ])->latest()->paginate(10);
+        ])
+        ->when($search, function ($query, $search) {
+            $query->whereHas('guru', function ($q) use ($search) {
+                    $q->where('nama', 'like', '%' . $search . '%')
+                      ->orWhere('nip', 'like', '%' . $search . '%');
+                })
+                ->orWhereHas('kelas', function ($q) use ($search) {
+                    $q->where('nama_kelas', 'like', '%' . $search . '%');
+                })
+                ->orWhereHas('mataPelajaran', function ($q) use ($search) {
+                    $q->where('nama', 'like', '%' . $search . '%');
+                })
+                ->orWhereHas('tahunAjaran', function ($q) use ($search) {
+                    $q->where('nama', 'like', '%' . $search . '%');
+                });
+        })
+        ->latest()
+        ->paginate(10);
 
-        return view('admin.pengajar.index', compact('pengajars'));
-    }
+    return view('admin.pengajar.index', compact('pengajars'));
+}
 
     public function create()
     {
@@ -69,7 +88,7 @@ class PengajarController extends Controller
             'is_active' => $request->has('is_active') ? true : false,
         ]);
 
-        return redirect()->route('pengajar.index')
+        return redirect()->route('admin.pengajar.index')
             ->with('success', 'Data pengajar berhasil ditambahkan.');
     }
 
@@ -120,15 +139,19 @@ class PengajarController extends Controller
             'is_active' => $request->has('is_active') ? true : false,
         ]);
 
-        return redirect()->route('pengajar.index')
+        return redirect()->route('admin.pengajar.index')
             ->with('success', 'Data pengajar berhasil diperbarui.');
     }
 
     public function destroy(Pengajar $pengajar)
-    {
-        $pengajar->delete();
-
-        return redirect()->route('pengajar.index')
-            ->with('success', 'Data pengajar berhasil dihapus.');
+{
+    if ($pengajar->nilais()->exists()) {
+        return back()->with('error', 'Pengajar tidak bisa dihapus karena sudah memiliki data nilai.');
     }
+
+    $pengajar->delete();
+
+    return redirect()->route('admin.pengajar.index')
+        ->with('success', 'Data pengajar berhasil dihapus.');
+}
 }

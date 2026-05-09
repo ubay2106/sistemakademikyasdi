@@ -1,4 +1,4 @@
-@extends('layout.app')
+@extends('layout.main')
 @section('content')
     <section class="relative pt-36 pb-12 overflow-hidden"
         style="background: linear-gradient(135deg, #0a2e1a 0%, #0f4a28 40%, #1a6b3a 70%, #0d3d20 100%);">

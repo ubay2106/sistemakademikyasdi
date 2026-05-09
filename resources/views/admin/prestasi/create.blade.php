@@ -1,4 +1,4 @@
-@extends('admin.layout.app')
+@extends('layout.app')
 
 @section('content')
 
@@ -6,7 +6,7 @@
 
     {{-- Back --}}
     <div class="mb-6">
-        <a href="{{ route('prestasi.index') }}"
+        <a href="{{ route('admin.prestasi.index') }}"
             class="inline-flex items-center gap-2 text-sm text-gray-400 hover:text-gray-700 transition">
             <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
@@ -15,12 +15,11 @@
         </a>
     </div>
 
-    <form method="POST" action="{{ route('prestasi.store') }}" enctype="multipart/form-data">
+    <form method="POST" action="{{ route('admin.prestasi.store') }}" enctype="multipart/form-data">
         @csrf
 
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
-            {{-- ===== KOLOM KIRI (2/3) ===== --}}
             <div class="lg:col-span-2 space-y-6">
 
                 {{-- Informasi Utama --}}
@@ -178,7 +177,6 @@
 
             </div>
 
-            {{-- ===== KOLOM KANAN (1/3) ===== --}}
             <div class="space-y-6">
 
                 {{-- Publish --}}
@@ -204,7 +202,7 @@
                             class="w-full bg-primary text-white font-semibold text-sm py-2.5 px-5 rounded-xl hover:bg-green-700 transition duration-200">
                             Simpan Prestasi
                         </button>
-                        <a href="{{ route('prestasi.index') }}"
+                        <a href="{{ route('admin.prestasi.index') }}"
                             class="w-full text-center text-sm text-gray-400 hover:text-gray-600 py-2.5 px-5 rounded-xl border border-gray-200 hover:border-gray-300 transition duration-200">
                             Batal
                         </a>

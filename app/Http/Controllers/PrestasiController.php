@@ -10,12 +10,25 @@ use Illuminate\Support\Str;
 
 class PrestasiController extends Controller
 {
-    public function index()
-    {
-        $prestasis = Prestasi::latest()->paginate(10);
+    public function index(Request $request)
+{
+    $search = $request->search;
 
-        return view('admin.prestasi.index', compact('prestasis'));
-    }
+    $prestasis = Prestasi::when($search, function ($query, $search) {
+            $query->where('judul', 'like', '%' . $search . '%')
+                ->orWhere('nama_peserta', 'like', '%' . $search . '%')
+                ->orWhere('nis_nip', 'like', '%' . $search . '%')
+                ->orWhere('kelas', 'like', '%' . $search . '%')
+                ->orWhere('tingkat', 'like', '%' . $search . '%')
+                ->orWhere('juara', 'like', '%' . $search . '%')
+                ->orWhere('nama_lomba', 'like', '%' . $search . '%')
+                ->orWhere('penyelenggara', 'like', '%' . $search . '%');
+        })
+        ->latest()
+        ->paginate(10);
+
+    return view('admin.prestasi.index', compact('prestasis'));
+}
 
     public function create()
     {
@@ -65,7 +78,7 @@ class PrestasiController extends Controller
             'meta_description' => $request->filled('meta_description') ? Str::limit(strip_tags($request->meta_description), 160) : Str::limit(strip_tags($request->deskripsi), 160),
         ]);
 
-        return redirect()->route('prestasi.index')->with('success', 'Prestasi berhasil ditambahkan.');
+        return redirect()->route('admin.prestasi.index')->with('success', 'Prestasi berhasil ditambahkan.');
     }
 
     public function show(Prestasi $prestasi)
@@ -123,7 +136,7 @@ class PrestasiController extends Controller
             'meta_description' => $request->filled('meta_description') ? Str::limit(strip_tags($request->meta_description), 160) : Str::limit(strip_tags($request->deskripsi), 160),
         ]);
 
-        return redirect()->route('prestasi.index')->with('success', 'Prestasi berhasil diperbarui.');
+        return redirect()->route('admin.prestasi.index')->with('success', 'Prestasi berhasil diperbarui.');
     }
 
     public function destroy(Prestasi $prestasi)
@@ -134,7 +147,7 @@ class PrestasiController extends Controller
 
         $prestasi->delete();
 
-        return redirect()->route('prestasi.index')->with('success', 'Prestasi berhasil dihapus.');
+        return redirect()->route('admin.prestasi.index')->with('success', 'Prestasi berhasil dihapus.');
     }
 
     public function frontendIndex()
