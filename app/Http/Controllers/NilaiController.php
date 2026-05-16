@@ -11,6 +11,9 @@ use Illuminate\Http\Request;
 use App\Models\Kelas;
 use App\Models\MataPelajaran;
 use App\Models\TahunAjaran;
+use App\Exports\NilaiExport;
+use Maatwebsite\Excel\Facades\Excel;
+
 
 class NilaiController extends Controller
 {
@@ -156,4 +159,9 @@ public function index(Request $request)
 
         return round($nilai->avg(), 2);
     }
+
+    public function export(Request $request)
+{
+    return Excel::download(new NilaiExport($request), 'rekap-nilai-siswa.xlsx');
+}
 }

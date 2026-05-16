@@ -90,17 +90,15 @@ Route::middleware('auth')
         Route::resource('siswakelas', SiswaKelasController::class)->except(['show']);
 
         Route::resource('nilai', NilaiController::class);
+        Route::get('nilai/export/excel', [NilaiController::class, 'export'])->name('nilai.export');
 
         Route::resource('galeri', GaleriController::class);
 
-        Route::get('/account', [AccountController::class, 'index'])
-            ->name('account.index');
+        Route::get('/account', [AccountController::class, 'index'])->name('account.index');
 
-        Route::post('/account/update-password', [AccountController::class, 'updatePassword'])
-            ->name('account.update-password');
+        Route::post('/account/update-password', [AccountController::class, 'updatePassword'])->name('account.update-password');
 
-        Route::post('/account/reset-password-guru/{guru}', [AccountController::class, 'resetPasswordGuru'])
-            ->name('account.reset-password-guru');
+        Route::post('/account/reset-password-guru/{guru}', [AccountController::class, 'resetPasswordGuru'])->name('account.reset-password-guru');
     });
 
 Route::middleware('auth')
@@ -120,6 +118,7 @@ Route::middleware('auth')
         Route::get('/nilai/edit/{nilai}', [GuruNilaiController::class, 'edit'])->name('nilai.edit');
         Route::put('/nilai/update/{nilai}', [GuruNilaiController::class, 'update'])->name('nilai.update');
         Route::delete('/nilai/delete/{nilai}', [GuruNilaiController::class, 'destroy'])->name('nilai.destroy');
+        
 
         Route::get('/profile', [GuruProfileController::class, 'edit'])->name('profile.edit');
 

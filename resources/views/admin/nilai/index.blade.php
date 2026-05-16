@@ -40,7 +40,7 @@
             <p class="text-xs text-gray-400 mt-0.5">Kelola nilai harian, tugas, UTS, UAS, dan nilai akhir per kelas</p>
         </div>
         <div class="flex items-center gap-2 flex-shrink-0">
-            <a href=""
+            <a href="{{ route('admin.nilai.export', request()->query()) }}"
                 class="flex items-center gap-2 bg-emerald-600 text-white font-semibold text-sm py-2.5 px-4 rounded-xl hover:bg-emerald-700 transition duration-200">
                 <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round"
